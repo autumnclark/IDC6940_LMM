@@ -98,6 +98,8 @@ Sleep Disorder Analysis: Identify the occurrence of sleep disorders, i.e. insomn
 - **Daily Steps**: number of steps the individual takes per day
 - **Sleep Disorder**: the presence or absence of a sleep disorder experienced by the individual (None, Insomnia, Sleep Apnea)
 
+
+
 -   Present initial findings and insights through visualizations.
 
 -   Highlight unexpected patterns or anomalies.
