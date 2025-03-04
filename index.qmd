@@ -21,14 +21,6 @@ editor:
 [Literature Review](litreview.html){target="_blank"} |
 [Slides](slides.html){target="_blank"}
 
-::: callout-important
-**Remember:** Your goal is to make your audience understand and care
-about your findings. By crafting a compelling story, you can effectively
-communicate the value of your data science project.
-
-Carefully read this template since it has instructions and tips to
-writing!
-:::
 
 ## Introduction
 
@@ -38,7 +30,7 @@ writing!
 
   Normal Linear Mixed Models (LMMs) have become a fundamental tool in statistical modeling, particularly in hierarchical data structures. LMMs account for both fixed effects, which describe population-level influences and random effects. LMMs are different from other methods such as ANOVA. This flexibility makes them particularly valuable in medical and healthcare research, where patient responses vary.
 
-  The following is hypothetical and will be modified as further direction for the project is taken such as datasets, methodology, design and analysis. The application of LMMs spans various domains, including health-related quality of life assessments, cost predictions, blood pressure monitoring and cardiovascular studies. This paper explores the role of normal linear mixed models in different medical and health research studies. This paper plans to examine advantages of LMMs over other methods such as ANOVA and linear regression. The goal of this paper is to take a data set preferably relating to healthcare and use LMMs to prove their efficiency for a particular data set such as blood pressure data. LMMs would be useful to analyze a blood pressure data set to model patient specific fluctuations. This paper will analyze a blood pressure data set using LMMs to capture circadian rhythms, REM sleep patterns and potential heart issues (hypothetical). 
+  The following is hypothetical and will be modified as further direction for the project is taken such as datasets, methodology, design and analysis. The application of LMMs spans various domains, including health-related quality of life assessments, cost predictions, blood pressure monitoring and cardiovascular studies. This paper explores the role of normal linear mixed models in different medical and health research studies. This paper plans to examine advantages of LMMs over other methods such as ANOVA and linear regression. The goal of this paper is to take the Sleeph Health and Lifestyle dataset and use LMMs to prove their efficiency for a particular data set such as blood pressure data. LMMs would be useful to analyze a blood pressure data set to model patient specific fluctuations. This paper will analyze a blood pressure data set using LMMs to capture circadian rhythms, REM sleep patterns and potential heart issues (hypothetical). 
 
 
 ## Methods
@@ -71,9 +63,40 @@ $$
 ## Analysis and Results
 
 ### Data Exploration and Visualization
+
+#### **Dataset Overview:**
+
 Dataset: [Sleep Health and Lifestyle Dataset](https://www.kaggle.com/datasets/uom190346a/sleep-health-and-lifestyle-dataset/data){target="_blank"}
 
 -   Describe your data sources and collection process.
+
+The Sleep Health and Lifestyle Dataset consists of 400 records with 13 variables, covering aspects of sleep and daily routines. It includes data on gender, age, occupation, sleep duration and quality, physical activity levels, stress, BMI, blood pressure, heart rate, daily step count, and whether an individual has a sleep disorder or not.
+
+##### **Key Features of the Dataset:**
+
+Sleep metrics: explore sleep duration, quality, and factors that influence different sleep patterns
+
+Lifestyle factors: Analyze physical activity levels, stress levels, and BMI categories
+
+Cardiovascular Health: Examine blood pressure and heart rate measurements
+
+Sleep Disorder Analysis: Identify the occurrence of sleep disorders, i.e. insomnia and sleep apnea
+
+##### **Dataset Columns:**
+
+- **Person ID**: an identifier for each individual
+- **Gender**: gender of the individual (male or female)
+- **Age**: age of the individual in years
+- **Occupation**: occupation or profession of the individual
+- **Sleep Duration**: number of hours the individual sleep per day
+- **Quality of Sleep (scale: 1-10)**: a subjective rating of the quality of sleep, ranging from 1 to 10
+- **Physical Activity Level**: the number of minutes the individual engages in physical activity everyday
+- **Stress Level (scale: 1-10)**: a subjective rating of the stress level the individual experiences, ranging from 1 to 10
+- **BMI Category**: BMI category of the individual (e.g., underweight, normal, overweight)
+- **Blood Pressure (systolic/diastolic)**: blood pressure measurement of the individual indicated as systolic or diastolic pressure
+- **Heart Rate (bpm)**: resting heart rate of the individual in beats per minute
+- **Daily Steps**: number of steps the individual takes per day
+- **Sleep Disorder**: the presence or absence of a sleep disorder experienced by the individual (None, Insomnia, Sleep Apnea)
 
 -   Present initial findings and insights through visualizations.
 
