@@ -1,6 +1,6 @@
 ---
-title: "Analyzing Blood Pressure using Normal Linear Mixed Models"
-subtitle: "An analysis of blood pressure "
+title: "Unlocking Sleep Health and Lifestyle insights using Normal Linear Mixed Models"
+subtitle: "An analysis of normal linear mixed model algorithms and it's applications in the sleep world "
 author: "Autumn Clark and Alex Ottley (Advisor: Dr.Cohen)"
 date: '`r Sys.Date()`'
 format:
@@ -18,8 +18,8 @@ editor:
     wrap: 72
 ---
 
-Slides: [slides.html](slides.html){target="_blank"} ( Go to `slides.qmd`
-to edit)
+[Literature Review](litreview.html){target="_blank"} |
+[Slides](slides.html){target="_blank"}
 
 ::: callout-important
 **Remember:** Your goal is to make your audience understand and care
