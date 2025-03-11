@@ -35,6 +35,8 @@ editor:
 
 ## Methods
 
+Linear Mixed Model Analysis on repeat measures data set. Furthermore to explain the functionality and uses of Normal Linear Mixed Models. That will likely be the premise of our methods.
+
 -   Detail the models or algorithms used.
 
 -   Justify your choices based on the problem and data.
