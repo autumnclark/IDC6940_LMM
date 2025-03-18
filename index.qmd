@@ -1,6 +1,6 @@
 ---
-title: "Gathering insights about COVID19 Worldwide Testing using Normal Linear Mixed Models"
-subtitle: "An analysis of normal linear mixed model algorithms and it's applications"
+title: "Gathering insights about COVID19 Worldwide Testing using Linear Mixed Models"
+subtitle: "An analysis of linear mixed model algorithms and it's applications"
 
 author: "Autumn Clark and Alex Ottley (Advisor: Dr.Cohen)"
 date: '`r Sys.Date()`'
