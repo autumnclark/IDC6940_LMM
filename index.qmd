@@ -1,6 +1,7 @@
 ---
-title: "Unlocking Sleep Health and Lifestyle insights using Normal Linear Mixed Models"
-subtitle: "An analysis of normal linear mixed model algorithms and it's applications in the sleep world "
+title: "Gathering insights about COVID19 Worldwide Testing using Normal Linear Mixed Models"
+subtitle: "An analysis of normal linear mixed model algorithms and it's applications"
+
 author: "Autumn Clark and Alex Ottley (Advisor: Dr.Cohen)"
 date: '`r Sys.Date()`'
 format:
@@ -30,7 +31,7 @@ editor:
 
   Normal Linear Mixed Models (LMMs) have become a fundamental tool in statistical modeling, particularly in hierarchical data structures. LMMs account for both fixed effects, which describe population-level influences and random effects. LMMs are different from other methods such as ANOVA. This flexibility makes them particularly valuable in medical and healthcare research, where patient responses vary.
 
-  The following is hypothetical and will be modified as further direction for the project is taken such as datasets, methodology, design and analysis. The application of LMMs spans various domains, including health-related quality of life assessments, cost predictions, blood pressure monitoring and cardiovascular studies. This paper explores the role of normal linear mixed models in different medical and health research studies. This paper plans to examine advantages of LMMs over other methods such as ANOVA and linear regression. The goal of this paper is to take the Sleeph Health and Lifestyle dataset and use LMMs to prove their efficiency for a particular data set such as blood pressure data. LMMs would be useful to analyze a blood pressure data set to model patient specific fluctuations. This paper will analyze a blood pressure data set using LMMs to capture circadian rhythms, REM sleep patterns and potential heart issues (hypothetical). 
+  The following is hypothetical and will be modified as further direction for the project is taken such as datasets, methodology, design and analysis. The application of LMMs spans various domains, including health-related quality of life assessments, cost predictions, blood pressure monitoring and cardiovascular studies. This paper explores the role of normal linear mixed models COVID19 testing done worldwide. This paper plans to examine advantages of LMMs over other methods such as ANOVA and linear regression. The goal of this paper is to take the Covid19 Worldwide Testing dataset and use LMMs to prove their efficiency for a particular data set such as blood pressure data. LMMs would be useful to analyze a blood pressure data set to model patient specific fluctuations. This paper will analyze a blood pressure data set using LMMs to capture circadian rhythms, REM sleep patterns and potential heart issues (hypothetical). 
 
 
 ## Methods
@@ -68,38 +69,29 @@ $$
 
 #### **Dataset Overview:**
 
-Dataset: [Sleep Health and Lifestyle Dataset](https://www.kaggle.com/datasets/uom190346a/sleep-health-and-lifestyle-dataset/data){target="_blank"}
+Dataset: [Covid19 Worldwide Testing](https://www.kaggle.com/datasets/lin0li/covid19testing/data){target="_blank"}
 
 -   Describe your data sources and collection process.
 
-The Sleep Health and Lifestyle Dataset consists of 400 records with 13 variables, covering aspects of sleep and daily routines. It includes data on gender, age, occupation, sleep duration and quality, physical activity levels, stress, BMI, blood pressure, heart rate, daily step count, and whether an individual has a sleep disorder or not.
+This dataset, which has the number of tests conducted over time, is important to help making sense of daily reported cases and understanding how COVID-19 is truly spreading in each country.
+The world generally uses daily reported positive cases to understand how COVID-19 is spreading in different countries. However, given that potentially over 50% of the cases are asymptomatic, these populations are much less likely to seek testing and get tested. Therefore, the reported cases are highly likely to be only a portion of the population who are truly infected by COVID-19, and the number of reported cases has a strong relation to the number of tests conducted each day.
 
-##### **Key Features of the Dataset:**
-
-Sleep metrics: explore sleep duration, quality, and factors that influence different sleep patterns
-
-Lifestyle factors: Analyze physical activity levels, stress levels, and BMI categories
-
-Cardiovascular Health: Examine blood pressure and heart rate measurements
-
-Sleep Disorder Analysis: Identify the occurrence of sleep disorders, i.e. insomnia and sleep apnea
+For example, you can imagine a country not doing much testing might be reporting low number of cases, but it doesn't mean COVID-19 is not spreading in that country. To help making sense of daily reported cases and understanding how COVID-19 is truly spreading in each country, it's crucial to understand how many tests are conducted each day.
 
 ##### **Dataset Columns:**
 
-- **Person ID**: an identifier for each individual
-- **Gender**: gender of the individual (male or female)
-- **Age**: age of the individual in years
-- **Occupation**: occupation or profession of the individual
-- **Sleep Duration**: number of hours the individual sleep per day
-- **Quality of Sleep (scale: 1-10)**: a subjective rating of the quality of sleep, ranging from 1 to 10
-- **Physical Activity Level**: the number of minutes the individual engages in physical activity everyday
-- **Stress Level (scale: 1-10)**: a subjective rating of the stress level the individual experiences, ranging from 1 to 10
-- **BMI Category**: BMI category of the individual (e.g., underweight, normal, overweight)
-- **Blood Pressure (systolic/diastolic)**: blood pressure measurement of the individual indicated as systolic or diastolic pressure
-- **Heart Rate (bpm)**: resting heart rate of the individual in beats per minute
-- **Daily Steps**: number of steps the individual takes per day
-- **Sleep Disorder**: the presence or absence of a sleep disorder experienced by the individual (None, Insomnia, Sleep Apnea)
-
+- **Date**: an identifier for each individual
+- **Country_Region**: gender of the individual (male or female)
+- **Province_State**: age of the individual in years
+- **Positive**: cumulative number of positive cases reported
+- **Active**: number of active cases on that day
+- **Hospitalized**: cumulative number of hospitalized cases reported
+- **HospitalizedCurr**: number of actively hospitalized cases on that day
+- **Recovered**: cumulative number of recovered cases reported
+- **Death**: cumulative number of deaths reported
+- **Total_tested**: cumulative number of tests conducted
+- **Daily_tested**: number of tests conducted on the day; if daily data is unavailable, daily tested is averaged across of days in
+- **Daily_positive**: number of positives cases reported on the day; if daily data is unavailable, daily positive is averaged across number of days in
 
 
 -   Present initial findings and insights through visualizations.
