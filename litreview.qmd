@@ -1,6 +1,6 @@
 ---
 title: "Literature Reviews"
-subtitle: "Exploring the Applications of Linear Mixed Models in Sleep Health and Lifestyle "
+subtitle: "Exploring the Applications of Linear Mixed Models in COVID19 Worldwide Testing "
 author: "Autumn Clark, Alex Ottley"
 date: today
 format:
