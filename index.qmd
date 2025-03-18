@@ -111,7 +111,9 @@ library(dslabs)
 
 ```{r, warning=FALSE, echo=TRUE}
 # Load Data
-kable(head(murders))
+library(readr)
+COVID19 <- read_csv("COVID19 Worldwide Testing.csv")
+kable(head(COVID19))
 
 ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total)) 
 
