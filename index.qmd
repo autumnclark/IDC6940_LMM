@@ -34,9 +34,15 @@ editor:
   The following is hypothetical and will be modified as further direction for the project is taken such as datasets, methodology, design and analysis. The application of LMMs spans various domains, including health-related quality of life assessments, cost predictions, blood pressure monitoring and cardiovascular studies. This paper explores the role of normal linear mixed models COVID19 testing done worldwide. This paper plans to examine advantages of LMMs over other methods such as ANOVA and linear regression. The goal of this paper is to take the Covid19 Worldwide Testing dataset and use LMMs to prove their efficiency for a particular data set such as blood pressure data. LMMs would be useful to analyze a blood pressure data set to model patient specific fluctuations. This paper will analyze a blood pressure data set using LMMs to capture circadian rhythms, REM sleep patterns and potential heart issues (hypothetical). 
 
 
-## Methods
+## 2 Methods
 
-Linear Mixed Model Analysis on repeat measures data set. Furthermore to explain the functionality and uses of Normal Linear Mixed Models. That will likely be the premise of our methods.
+Linear Mixed Models (LMMs) are a powerful statistical approach for analyzing data with both fixed and random effects, commonly used when observations are correlated or grouped (i.e., repeated measures, hierarchical data). 
+
+The selected dataset for this project represents repeated measures data, which is data that includes observations collected from the same variable (dependent variable) multiple times, either over time or under different conditions, allowing for analysis of changes or effects within those subjects.
+
+## 2.1 Understanding LMMS
+
+
 
 -   Detail the models or algorithms used.
 
@@ -63,20 +69,18 @@ $$
 y_i = \beta_0 + \beta_1 X_1 +\varepsilon_i
 $$
 
-## Analysis and Results
+## 3 Analysis and Results
 
-### Data Exploration and Visualization
 
-#### **Dataset Overview:**
+### 3.1 Data and Visualization
+Data Source: **Kaggle**
 
-Dataset: [Covid19 Worldwide Testing](https://www.kaggle.com/datasets/lin0li/covid19testing/data){target="_blank"}
+[Covid19 Worldwide Testing](https://www.kaggle.com/datasets/lin0li/covid19testing/data){target="_blank"}
 
--   Describe your data sources and collection process.
-
-This dataset, which has the number of tests conducted over time, is important to help making sense of daily reported cases and understanding how COVID-19 is truly spreading in each country.
+**Description:** This dataset, which has the number of tests conducted over time, is important to help making sense of daily reported cases and understanding how COVID-19 is truly spreading in each country.
 The world generally uses daily reported positive cases to understand how COVID-19 is spreading in different countries. However, given that potentially over 50% of the cases are asymptomatic, these populations are much less likely to seek testing and get tested. Therefore, the reported cases are highly likely to be only a portion of the population who are truly infected by COVID-19, and the number of reported cases has a strong relation to the number of tests conducted each day.
 
-For example, you can imagine a country not doing much testing might be reporting low number of cases, but it doesn't mean COVID-19 is not spreading in that country. To help making sense of daily reported cases and understanding how COVID-19 is truly spreading in each country, it's crucial to understand how many tests are conducted each day.
+For example, imagine a country not doing much testing might be reporting low number of cases, but it doesn't mean COVID-19 is not spreading in that country. To help making sense of daily reported cases and understanding how COVID-19 is truly spreading in each country, it's crucial to understand how many tests are conducted each day.
 
 ##### **Dataset Columns:**
 
@@ -94,11 +98,8 @@ For example, you can imagine a country not doing much testing might be reporting
 - **Daily_positive**: number of positives cases reported on the day; if daily data is unavailable, daily positive is averaged across number of days in
 
 
--   Present initial findings and insights through visualizations.
 
--   Highlight unexpected patterns or anomalies.
-
-A study was conducted to determine how...
+### 3.2 Packages
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # loading packages 
@@ -107,48 +108,110 @@ library(knitr)
 library(ggthemes)
 library(ggrepel)
 library(dslabs)
+library(lme4)
+library(nlme)
+library(dplyr)
+library(ggplot2)
+
 ```
 
+### 3.3 Data Import
 ```{r, warning=FALSE, echo=TRUE}
 # Load Data
 library(readr)
-COVID19 <- read_csv("COVID19 Worldwide Testing.csv")
+COVID19 <- read_csv("tested_worldwide.csv")
 kable(head(COVID19))
-
-ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total)) 
-
-  ggplot1 + geom_point(aes(col=region), size = 4) +
-  geom_text_repel(aes(label=abb)) +
-  scale_x_log10() +
-  scale_y_log10() +
-  geom_smooth(formula = "y~x", method=lm,se = F)+
-  xlab("Populations in millions (log10 scale)") + 
-  ylab("Total number of murders (log10 scale)") +
-  ggtitle("US Gun Murders in 2010") +
-  scale_color_discrete(name = "Region")+
-      theme_bw()
   
+```
+
+
+### 3.4 Exploratory Data Analysis
+```{r}
+df <- COVID19
+#Convert Date to Date format
+df$Date <- as.Date(df$Date)
+
+#Remove rows with missing values in relevant columns
+df_clean <- df %>%
+  filter(!is.na(daily_positive), !is.na(daily_tested), !is.na(Country_Region))
+
+#Rescale daily_tested column
+df_clean$daily_tested_scaled <- df_clean$daily_tested / 1000
 
 ```
 
-### Modeling and Results
-
--   Explain your data preprocessing and cleaning steps.
-
--   Present your key findings in a clear and concise manner.
-
--   Use visuals to support your claims.
-
--   **Tell a story about what the data reveals.**
+### 3.5 Modeling and Results
 
 ```{r}
+#Fit LMM with random intercept and slope
+model_refined <- lmer(daily_positive ~ daily_tested_scaled + (daily_tested_scaled | Country_Region), data = df_clean)
+
+head(df_clean)
+
+#Model Summary
+summary(model_refined)
 
 ```
 
-### Conclusion
+**Key Results & Interpretation**
+
+Random Effects (Country-Level Variability)
+Intercept Variance: 435,521 (Std. Dev. = 659.94)
+→ Countries have a wide range of baseline positivity rates.
+Slope Variance (daily_tested_scaled): 4,217 (Std. Dev. = 64.94)
+→ The effect of testing varies significantly across countries.
+Correlation (-0.42) between intercept and slope
+→ Countries with higher baseline positivity rates tend to have a lower increase in cases per additional 1,000 tests.
+
+
+Fixed Effects (Overall Trend)
+Intercept (95.05, p = 0.281)
+→ Not significantly different from zero; suggests no strong overall baseline.
+daily_tested_scaled (52.16, p < 0.001)*
+→ On average, for every 1,000 tests conducted, about 52 additional positive cases are detected.
+
+
+```{r}
+#Get model predictions
+df_clean$predicted <- predict(model_refined)
+
+#Scatter plot with values
+ggplot(df_clean, aes(x=daily_tested_scaled, y=daily_positive, color = Country_Region)) + 
+   geom_point(alpha = 0.3) +  # Raw data points
+  geom_line(aes(y = predicted, group = Country_Region), linewidth = 1) +  # Use linewidth instead of size
+  labs(title = "LMM: Daily Positive Cases vs. Daily Tests (Per Country)",
+   	x = "Daily Tests (in thousands)",
+   	y = "Daily Positive Cases") +
+  theme_minimal() +
+  theme(legend.position = "none")  # Hides legend for clarity
+
+```
+This scatterplot shows the spread of real data across multiple different countries. The model's fitted lines per country are based on LMM predictions, which were how different countries follow unique trends. 
+
+```{r}
+# Select a subset of countries 
+selected_countries <- c("United States", "India", "Brazil", "Germany", "South Korea")
+df_subset <- df_clean[df_clean$Country_Region %in% selected_countries, ]
+ 
+# Generate predictions for selected countries
+df_subset$predicted <- predict(model_refined, newdata = df_subset)
+ 
+# Plot
+ggplot(df_subset, aes(x = daily_tested_scaled, y = daily_positive, color = Country_Region)) +
+  geom_point(alpha = 0.6) +  # Raw data points
+  geom_line(aes(y = predicted), linewidth = 1.2) +  # Use linewidth instead of size
+  labs(title = "LMM Predictions for Selected Countries",
+   	x = "Daily Tests (in thousands)",
+   	y = "Daily Positive Cases") +
+  theme_minimal()
+
+```
+This scatterplot shows the relationship between testing and positive cases for specific countries and the country-wise differences in slopes (e.g., some countries have steeper slopes than others). In addition, this scatterplot shows how the model predicts positivity rates differently per country.
+
+### 4 Conclusion
 
 -   Summarize your key findings.
 
 -   Discuss the implications of your results.
 
-## References
+## 5 References
