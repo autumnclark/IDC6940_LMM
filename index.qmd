@@ -40,6 +40,9 @@ Linear Mixed Models (LMMs) are a powerful statistical approach for analyzing dat
 
 The selected dataset for this project represents repeated measures data, which is data that includes observations collected from the same variable (dependent variable) multiple times, either over time or under different conditions, allowing for analysis of changes or effects within those subjects.
 
+The goal of this analysis is to present how COVID-19 testing relates to the number of positive cases across different countries. Although we expect a general relationship, more tests leading to more positive cases, the strength of that relationship likely varies from country to country due to differences in testing strategies, population size, healthcare infrastructure, and outbreak severity.
+To capture this country level variability, we apply a Linear Mixed Model framework, which allows us to analyze both overall trends and country-specific deviations. It is also important to recognize why we are using a Linear Mixed Model to answer this question. A traditional linear regression would present a single slope and intercept for all countries, which ignores the natural variation between regions. A LMM allows each country to have its own intercept or baseline number of positive cases. An LMM also allows each country to have its own slope which is presented as the effect of testing on positivity.
+
 ## 2.1 Understanding LMMS
 
 
@@ -68,6 +71,9 @@ Weights are positive numbers and small if* $X_i$ *is far from* $x$*.*
 $$
 y_i = \beta_0 + \beta_1 X_1 +\varepsilon_i
 $$
+
+## 2.2 Assumptions
+## 2.3 R Implementation
 
 ## 3 Analysis and Results
 
@@ -127,6 +133,7 @@ kable(head(COVID19))
 
 ### 3.4 Exploratory Data Analysis
 ```{r}
+
 df <- COVID19
 #Convert Date to Date format
 df$Date <- as.Date(df$Date)
@@ -139,7 +146,7 @@ df_clean <- df %>%
 df_clean$daily_tested_scaled <- df_clean$daily_tested / 1000
 
 ```
-
+In the EDA, the
 ### 3.5 Modeling and Results
 
 ```{r}
@@ -152,6 +159,8 @@ head(df_clean)
 summary(model_refined)
 
 ```
+
+We modeled **daily_positive** (positive cases) as a function of **daily_tested_scaled** (tests per day, divided by 1,000 for interpretability), with random slopes and intercepts for Country_Region:
 
 **Key Results & Interpretation**
 
