@@ -1,13 +1,14 @@
 ---
-title: "Present a great story for data science projects"
-subtitle: "This is a Slide Template"
-author: "Students names (Advisor: Dr. Cohen)"
+title: "Gathering insights about COVID19 Worldwide Testing using Linear Mixed Models"
+subtitle: "UWF IDC6940 Capstone Project on Linear Mixed Models (LMMs)"
+author: "Alex Ottley and Autumn Clark (Advisor: Dr. Cohen)"
 date: '`r Sys.Date()`'
 format:
   revealjs
 course: Capstone Projects in Data Science
 bibliography: references.bib # file contains bibtex for references
 #always_allow_html: true # this allows to get PDF with HTML features
+code_folding: true # or "hide" to collapse by default
 self-contained: true
 execute: 
   warning: false
@@ -17,39 +18,68 @@ editor:
     wrap: 72
 ---
 
-::: callout-important
-**Remember:** Your goal is to make your audience understand and care
-about your findings. By crafting a compelling story, you can effectively
-communicate the value of your data science project.
-
-Carefully read this template since it has instructions and tips to
-writing!
-
 More information about `revealjs`:
 <https://quarto.org/docs/reference/formats/presentations/revealjs.html>
 :::
 
-## Introduction  {.smaller}
+## Introduction - Understanding LMMs  {.smaller}
 
--   Develop a storyline that captures attention and maintains interest.
+Linear Mixed Models (LMMs) are statistical models that extend traditional linear regression by including both:
 
--   Your audience is your peers
+- Fixed effects: These are the overall effects you're interested in studying (e.g., how testing volume affects case counts across all countries).
 
--   Clearly state the problem or question you're addressing.
+- Random effects: These account for variation within subgroups or clusters (e.g., differences between countries), allowing intercepts and/or slopes to vary by group.
 
--   Introduce why it is relevant needs.
 
--   Provide an overview of your approach.
+## Introduction - Understanding LMMs continued {.smaller}
 
-In kernel estimator, weight function is known as kernel function
-[@efr2008]. Cite this paper [@bro2014principal]. The GEE [@wang2014].
-The PCA [@daffertshofer2004pca]\*
+LMMs are especially useful when:
 
-## Methods
+- Data is hierarchical or nested (like days within countries),
 
--   Detail the models or algorithms used.
+- Measurements are repeated over time,
 
--   Justify your choices based on the problem and data.
+- The data is unbalanced (not the same number of observations for each group).
+
+
+
+
+## Methods - Model Structure and Notation {.smaller}
+The general form of a linear mixed model is:
+$$
+y_{ij} = \beta_0 + \beta_1 x_{ij} + b_{0j} + b_{1j}x_{ij} + \varepsilon_{ij}
+$$
+Where,
+
+- $y_{ij}$: response variable for observation in $i$ in group $j$
+
+- $x_{ij}$: predictor (e.g., scaled daily tests)
+
+- $\beta_0,\beta_1$: fixed intercept and slope (population-level)
+
+- $b_{0j}, b_{1j}$: random intercept and slope for group $j$ (e.g., country)
+
+- $\varepsilon_{ij}$: residual error, assumed to be normally distributed: $\varepsilon_{ij} \sim N (0, \sigma^2)$
+
+## Methods - Model Structure and Notation continued {.smaller}
+In matrix form, the LMM can be represented as:
+
+$$
+y = X\beta + Zb + \varepsilon
+$$
+Where,
+
+- $y$: vector of outcomes
+
+- $X$: fixed-effects design matrix
+
+- $\beta$: vector of fixed effect coefficients
+
+- $Z$: random-effects design matrix
+
+- $b$: vector of random effects, assumed $\sim N (0, G)$
+
+- $\varepsilon$: residual errors, assumed $\sim N(0, R)$
 
 
 
@@ -110,8 +140,8 @@ ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total))
 
 ## Conclusion
 
--   Summarize your key findings.
+- Linear mixed models are powerful tools for analyzing complex, time-based public health data, capturing both global trends and country-specific differences.
 
--   Discuss the implications of your results.
+_ 
 
 ## References

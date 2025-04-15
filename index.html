@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Autumn Clark and Alex Ottley (Advisor: Dr.Cohen)">
-<meta name="dcterms.date" content="2025-04-07">
+<meta name="dcterms.date" content="2025-04-14">
 
 <title>Gathering insights about COVID19 Worldwide Testing using Linear Mixed Models</title>
 <style>
@@ -3243,7 +3243,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 7, 2025</p>
+      <p class="date">April 14, 2025</p>
     </div>
   </div>
   
@@ -3269,26 +3269,52 @@ window.Quarto = {
 <p>The selected dataset for this project represents repeated measures data, which is data that includes observations collected from the same variable (dependent variable) multiple times, either over time or under different conditions, allowing for analysis of changes or effects within those subjects.</p>
 <p>The goal of this analysis is to present how COVID-19 testing relates to the number of positive cases across different countries. Although we expect a general relationship, more tests leading to more positive cases, the strength of that relationship likely varies from country to country due to differences in testing strategies, population size, healthcare infrastructure, and outbreak severity. To capture this country level variability, we apply a Linear Mixed Model framework, which allows us to analyze both overall trends and country-specific deviations. It is also important to recognize why we are using a Linear Mixed Model to answer this question. A traditional linear regression would present a single slope and intercept for all countries, which ignores the natural variation between regions. A LMM allows each country to have its own intercept or baseline number of positive cases. An LMM also allows each country to have its own slope which is presented as the effect of testing on positivity.</p>
 </section>
-<section id="understanding-lmms" class="level2">
-<h2 class="anchored" data-anchor-id="understanding-lmms">2.1 Understanding LMMS</h2>
-<ul>
-<li><p>Detail the models or algorithms used.</p></li>
-<li><p>Justify your choices based on the problem and data.</p></li>
-</ul>
-<p><em>The common non-parametric regression model is</em> <span class="math inline">\(Y_i = m(X_i) + \varepsilon_i\)</span><em>, where</em> <span class="math inline">\(Y_i\)</span> <em>can be defined as the sum of the regression function value</em> <span class="math inline">\(m(x)\)</span> <em>for</em> <span class="math inline">\(X_i\)</span><em>. Here</em> <span class="math inline">\(m(x)\)</span> <em>is unknown and</em> <span class="math inline">\(\varepsilon_i\)</span> <em>some errors. With the help of this definition, we can create the estimation for local averaging i.e.</em> <span class="math inline">\(m(x)\)</span> <em>can be estimated with the product of</em> <span class="math inline">\(Y_i\)</span> <em>average and</em> <span class="math inline">\(X_i\)</span> <em>is near to</em> <span class="math inline">\(x\)</span><em>. In other words, this means that we are discovering the line through the data points with the help of surrounding data points. The estimation formula is printed below <span class="citation" data-cites="R-base">(<a href="#ref-R-base" role="doc-biblioref"><strong>R-base?</strong></a>)</span>:</em></p>
-<p><span class="math display">\[
-M_n(x) = \sum_{i=1}^{n} W_n (X_i) Y_i  \tag{1}
-\]</span><span class="math inline">\(W_n(x)\)</span> <em>is the sum of weights that belongs to all real numbers. Weights are positive numbers and small if</em> <span class="math inline">\(X_i\)</span> <em>is far from</em> <span class="math inline">\(x\)</span><em>.</em></p>
-<p><em>Another equation:</em></p>
-<p><span class="math display">\[
-y_i = \beta_0 + \beta_1 X_1 +\varepsilon_i
-\]</span></p>
+<section id="understanding-linear-mixed-models" class="level2">
+<h2 class="anchored" data-anchor-id="understanding-linear-mixed-models">2.1 Understanding Linear Mixed Models</h2>
+<p>A Linear Mixed Model (LMM) is a flexible extension of the linear regression model that incorporates both fixed and random effects. Fixed effects represent population-level parameters that are constant across all groups (e.g., the average impact of daily testing across all countries). Random effects capture variation across clusters (e.g., countries), allowing each group to have its own intercept and/or slope. This is particularly useful for hierarchical, repeated-measures, or panel data, where observations within the same group are not independent.</p>
+<p>LMMs are ideal for modeling data where residual errors are correlated within groups but independent across groups, which violates the assumptions of ordinary least squares (OLS) regression. They also allow analysts to partition variability into within-group and between-group components, improving both inference accuracy and generalizability.</p>
 </section>
-<section id="assumptions" class="level2">
-<h2 class="anchored" data-anchor-id="assumptions">2.2 Assumptions</h2>
+<section id="model-structure-and-notation" class="level2">
+<h2 class="anchored" data-anchor-id="model-structure-and-notation">2.2 Model Structure and Notation</h2>
+<p>The general form of a linear mixed model is:</p>
+<p><span class="math display">\[
+y_{ij} = \beta_0 + \beta_1 x_{ij} + b_{0j} + b_{1j}x_{ij} + \varepsilon_{ij}
+\]</span> Where,</p>
+<ul>
+<li><p><span class="math inline">\(y_{ij}\)</span>: response variable for observation in <span class="math inline">\(i\)</span> in group <span class="math inline">\(j\)</span></p></li>
+<li><p><span class="math inline">\(x_{ij}\)</span>: predictor (e.g., scaled daily tests)</p></li>
+<li><p><span class="math inline">\(\beta_0,\beta_1\)</span>: fixed intercept and slope (population-level)</p></li>
+<li><p><span class="math inline">\(b_{0j}, b_{1j}\)</span>: random intercept and slope for group <span class="math inline">\(j\)</span> (e.g., country)</p></li>
+<li><p><span class="math inline">\(\varepsilon_{ij}\)</span>: residual error, assumed to be normally distributed: <span class="math inline">\(\varepsilon_{ij} \sim N (0, \sigma^2)\)</span></p></li>
+</ul>
+<p>In matrix form, the LMM can be represented as: <span class="math display">\[
+y = X\beta + Zb + \varepsilon
+\]</span> Where,</p>
+<ul>
+<li><p><span class="math inline">\(y\)</span>: vector of outcomes</p></li>
+<li><p><span class="math inline">\(X\)</span>: fixed-effects design matrix</p></li>
+<li><p><span class="math inline">\(\beta\)</span>: vector of fixed effect coefficients</p></li>
+<li><p><span class="math inline">\(Z\)</span>: random-effects design matrix</p></li>
+<li><p><span class="math inline">\(b\)</span>: vector of random effects, assumed <span class="math inline">\(\sim N (0, G)\)</span></p></li>
+<li><p><span class="math inline">\(\varepsilon\)</span>: residual errors, assumed <span class="math inline">\(\sim N(0, R)\)</span></p></li>
+</ul>
+<p>This framework enables the estimation of both overall trends (fixed effects) and group-specific deviations (random effects), making linear mixed models ideal for handling variability and correlation structures across clusters.</p>
 </section>
 <section id="r-implementation" class="level2">
 <h2 class="anchored" data-anchor-id="r-implementation">2.3 R Implementation</h2>
+<p>In this study, we emplyed a linear mixed model to examine the relationship between the number of daily COVID-19 positive cases reported across various countries over time. The dataset consists of repeated daily observations for each country, which resultws in multilevel structure where each country is considered a separate group with its own data points over time. This hierarchical structure gives the opportunity to account for both the overall trends in the data and the variability across different countries.</p>
+<p>The model was designed to account for both the fixed effects of the number of daily tests conducted, which can influence case detection, and the random effects that capture country-specific deviations in testing practices and positivity rates. The model allows the both the intercept, baseline positivity, and the slope, the effect of testing on reported cases, to vary by country. This is incredibly important because different countries may have varying baseline rates of COVID-19 positivity and differing testing strategies, which may influence the number of positive cases detected.</p>
+<section id="key-components-of-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="key-components-of-the-model">Key components of the model:</h3>
+<ul>
+<li>Response variable: <em>daily_positive</em> — the number of newly confirmed cases per day</li>
+<li>Fixed effect predictor: <em>daily_tested_scaled</em> — the number of daily tests conducted (scaled by 1,000)</li>
+<li>Random effects: Intercept and slope for each <em>Country_Region</em>, allowing both baseline positivity and test effectiveness to vary by country</li>
+</ul>
+<p>The model formula in R was specified as:</p>
+<p>lmer(daily_positive ~ daily_tested_scaled + (daily_tested_scaled | Country_Region), data = df_clean)</p>
+<p>This structure enables the model to capture both the overall trend of case detection as influenced by the number of tests conducted, while simultaneously accounting for the heterogeneity in testing practices and baseline positivity across countries. By allowing these country-level variations, the model provides a more accurate understanding of how COVID-19 testing impacted the reported cases in different settings.</p>
+</section>
 </section>
 <section id="analysis-and-results" class="level2">
 <h2 class="anchored" data-anchor-id="analysis-and-results">3 Analysis and Results</h2>
@@ -3602,10 +3628,10 @@ Model failed to converge with max|grad| = 0.003381 (tol = 0.002, component 1)</c
 </section>
 <section id="conclusion" class="level3">
 <h3 class="anchored" data-anchor-id="conclusion">4 Conclusion</h3>
-<ul>
-<li><p>Summarize your key findings.</p></li>
-<li><p>Discuss the implications of your results.</p></li>
-</ul>
+<p>This study applied a Linear Mixed Model (LMM) to analyze COVID-19 testing data across countries using time-indexed, repeated measures. By modeling daily positive case counts as a function of daily testing volume and allowing both intercepts and slopes to vary by country, the LMM effectively captured differences in baseline positivity and testing effectiveness across global regions.</p>
+<p>The fixed effect results demonstrated that increased testing was significantly associated with higher detected case counts, underscoring the critical role that testing plays in understanding and managing the spread of COVID-19. Additionally, the model’s random effects revealed meaningful variation between countries—both in baseline levels of positive cases and in how each country’s positivity rate responded to increased testing.</p>
+<p>Model diagnostics showed acceptable residual behavior, though some mild heteroscedasticity and non-normality were present, likely due to the large scale and variability of the data. A minor convergence warning suggests future refinement of optimization settings may improve model stability, but the core results remain interpretable and valid.</p>
+<p>Overall, the use of LMMs in this context illustrates their power in handling real-world public health data that is hierarchical, unbalanced, and repeated over time. The flexibility of LMMs allows researchers to extract more meaningful insights than would be possible with simpler linear models or ANOVA, particularly when assessing country-specific patterns during a global health crisis. Future research might explore more complex temporal structures or additional covariates (e.g., vaccination rates, policy interventions) to further enhance our understanding of COVID-19 dynamics worldwide.</p>
 </section>
 </section>
 <section id="references" class="level2">
