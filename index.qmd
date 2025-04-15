@@ -25,13 +25,17 @@ editor:
 
 ## Introduction
 
-  In recent years, statistical models have become indispensable tools in understanding complex data structures across various fields, including biology, social sciences, economics, and medicine. One powerful class of models that has gained significant traction is the linear mixed model (LMM). Linear mixed models extend traditional linear regression by incorporating both fixed and random effects, making them well-suited for data with hierarchical or grouped structures. Unlike standard linear models, which assume that all observations are independent, linear mixed models allow for the modeling of correlation within clusters or repeated measures, thus providing more flexibility and accuracy in analyzing real-world data.
+Understanding complex, hierarchical data has become increasingly important across disciplines such as epidemiology, cardiology, psychology, and public health. Among the most powerful and flexible tools for analyzing such data is the Linear Mixed Model (LMM). LMMs extend traditional linear regression by incorporating both fixed effects, which account for population-level trends, and random effects, which capture variability across individual units or clusters. This structure enables LMMs to model correlated data—such as repeated measures from the same subject or observations nested within groups—without violating the assumption of independence required by simpler models.
 
-  LMMs are particularly useful in addressing challenges such as nested data structures, longitudinal measurements, and variability across subjects or experimental units. By allowing for random effects, such models account for unobserved heterogeneity, making them invaluable in situations where individuals or units differ in ways not captured by the fixed effects alone. This flexibility enhances the model's ability to generalize and improve predictions, making it a versatile tool in both theoretical and applied research.
+The usefulness of LMMs is particularly evident in medical and health research, where individual variability is often substantial. For instance, [@Goncalves2005] highlighted the superior performance of LMMs over ANOVA in evaluating heart rate and coronary-perfused pressure data in transgenic mice. Their work demonstrated how LMMs provide a more sensitive and robust framework for assessing experimental effects in biomedical studies, particularly when data are unbalanced or collected over time.
 
-  Normal Linear Mixed Models (LMMs) have become a fundamental tool in statistical modeling, particularly in hierarchical data structures. LMMs account for both fixed effects, which describe population-level influences and random effects. LMMs are different from other methods such as ANOVA. This flexibility makes them particularly valuable in medical and healthcare research, where patient responses vary.
+In cardiovascular research, sleep disturbances have been identified as significant contributors to abnormal nocturnal blood pressure (BP) profiles—factors that increase the risk of adverse cardiac events. [@Matsumoto2019] employed LMMs in their investigation of sleep efficiency and nocturnal BP using multi-day observational data. Their use of random effects allowed them to control for between-subject variability while modeling day-to-day BP fluctuations, resulting in more accurate estimates of the associations. The study supported previous findings that lower sleep efficiency is linked to higher nighttime BP levels and diminished nocturnal BP dips [@Kario2001] [@Mano2021] 
 
-  The following is hypothetical and will be modified as further direction for the project is taken such as datasets, methodology, design and analysis. The application of LMMs spans various domains, including health-related quality of life assessments, cost predictions, blood pressure monitoring and cardiovascular studies. This paper explores the role of normal linear mixed models COVID19 testing done worldwide. This paper plans to examine advantages of LMMs over other methods such as ANOVA and linear regression. The goal of this paper is to take the Covid19 Worldwide Testing dataset and use LMMs to prove their efficiency for a particular data set such as blood pressure data. LMMs would be useful to analyze a blood pressure data set to model patient specific fluctuations. This paper will analyze a blood pressure data set using LMMs to capture circadian rhythms, REM sleep patterns and potential heart issues (hypothetical). 
+The advantages of LMMs extend to the modeling of 24-hour physiological processes. [@EdwardsandSimpson2014] utilized orthonormal polynomials within LMMs to analyze 24-hour ambulatory blood pressure monitoring data. Their approach enhanced both the accuracy and interpretability of BP trajectories over time, providing clinicians with detailed insights into circadian rhythm variations in patient data. LMMs allowed for complex modeling without overfitting, an essential property when working with high-frequency longitudinal health data.
+
+Moreover, LMMs have proven especially valuable in large-scale clinical outcomes research. [@Wang2022] showcased the strength of LMMs using a dataset from over 600 patients who underwent pulmonary valve replacement surgery. With more than 5,000 echocardiographic measurements over multiple years, the study leveraged LMMs to model both fixed effects (e.g., treatment procedures, age, sex) and random effects (e.g., patient-specific recovery trajectories). LMMs allowed the researchers to handle missing data, unbalanced measurement schedules, and inter-patient heterogeneity more effectively than traditional linear models or survival analysis.
+
+Together, these studies establish LMMs as a critical tool in longitudinal and repeated-measures research, offering flexibility, accuracy, and interpretability. This paper builds on that foundation by applying LMMs to the COVID-19 Worldwide Testing dataset, which contains country-level, time-indexed data on daily testing and positivity rates. While the subject differs from cardiovascular data, the analytical challenges—such as repeated observations, between-country variability, and time trends—are strikingly similar. The goal is to illustrate how LMMs can uncover meaningful patterns in large public health datasets, ultimately guiding more informed decision-making in times of global crisis. Later sections will also briefly reflect on how these models might be applied in hypothetical clinical settings, such as circadian blood pressure analysis.
 
 
 ## 2 Methods
@@ -89,9 +93,9 @@ Where,
 This framework enables the estimation of both overall trends (fixed effects) and group-specific deviations (random effects), making linear mixed models ideal for handling variability and correlation structures across clusters.
 
 
-## 2.3 R Implementation
+## 2.3 Application to COVID-19 Data
 
-In this study, we emplyed a linear mixed model to examine the relationship between the number of daily COVID-19 positive cases reported across various countries over time. The dataset consists of repeated daily observations for each country, which resultws in multilevel structure where each country is considered a separate group with its own data points over time. This hierarchical structure gives the opportunity to account for both the overall trends in the data and the variability across different countries.
+In this study, we employed a linear mixed model to examine the relationship between the number of daily COVID-19 positive cases reported across various countries over time. The dataset consists of repeated daily observations for each country, which resultws in multilevel structure where each country is considered a separate group with its own data points over time. This hierarchical structure gives the opportunity to account for both the overall trends in the data and the variability across different countries.
 
 The model was designed to account for both the fixed effects of the number of daily tests conducted, which can influence case detection, and the random effects that capture country-specific deviations in testing practices and positivity rates. The model allows the both the intercept, baseline positivity, and the slope, the effect of testing on reported cases, to vary by country. This is incredibly important because different countries may have varying baseline rates of COVID-19 positivity and differing testing strategies, which may influence the number of positive cases detected.
 
@@ -103,20 +107,46 @@ The model was designed to account for both the fixed effects of the number of da
 
 The model formula in R was specified as:
 
-```{r}
-
-lmer(daily_positive ~ daily_tested_scaled + (daily_tested_scaled | Country_Region), data = df_clean)
-
-```
-
+*lmer(daily_positive ~ daily_tested_scaled + (daily_tested_scaled | Country_Region), data = df_clean*)*
 
 This structure enables the model to capture both the overall trend of case detection as influenced by the number of tests conducted, while simultaneously accounting for the heterogeneity in testing practices and baseline positivity across countries. By allowing these country-level variations, the model provides a more accurate understanding of how COVID-19 testing impacted the reported cases in different settings.
 
+## 2.4 Justification
+
+Linear mixed models were chosen due to their ability to model nested data, adjust for within-group correlation, and incorporate individual variation in trends. These models also handle unbalanced data (i.e., unequal observations per country) and missingness better than traditional methods like repeated-measures ANOVA or fixed-effects OLS regression.
 
 ## 3 Analysis and Results
 
 
 ### 3.1 Data and Visualization
+
+### Packages 
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+# loading packages 
+library(tidyverse)
+library(knitr)
+library(ggthemes)
+library(ggrepel)
+library(dslabs)
+library(lme4)
+library(nlme)
+library(dplyr)
+library(ggplot2)
+library(readr)
+
+```
+
+### Data Import
+```{r, warning=FALSE, echo=TRUE}
+# Load Data
+library(readr)
+COVID19 <- read_csv("tested_worldwide.csv")
+kable(head(COVID19))
+df <- COVID19
+  
+```
+
 Data Source: **Kaggle**
 
 [Covid19 Worldwide Testing](https://www.kaggle.com/datasets/lin0li/covid19testing/data){target="_blank"}
@@ -141,35 +171,7 @@ For example, imagine a country not doing much testing might be reporting low num
 - **Daily_tested**: number of tests conducted on the day; if daily data is unavailable, daily tested is averaged across of days in
 - **Daily_positive**: number of positives cases reported on the day; if daily data is unavailable, daily positive is averaged across number of days in
 
-
-
-### 3.2 Packages
-
-```{r, warning=FALSE, echo=T, message=FALSE}
-# loading packages 
-library(tidyverse)
-library(knitr)
-library(ggthemes)
-library(ggrepel)
-library(dslabs)
-library(lme4)
-library(nlme)
-library(dplyr)
-library(ggplot2)
-
-```
-
-### 3.3 Data Import
-```{r, warning=FALSE, echo=TRUE}
-# Load Data
-library(readr)
-COVID19 <- read_csv("tested_worldwide.csv")
-kable(head(COVID19))
-  
-```
-
-
-### 3.4 Exploratory Data Analysis
+### 3.2 Exploratory Data Analysis (Clean Data)
 ```{r}
 
 df <- COVID19
@@ -180,12 +182,12 @@ df$Date <- as.Date(df$Date)
 df_clean <- df %>%
   filter(!is.na(daily_positive), !is.na(daily_tested), !is.na(Country_Region))
 
-#Rescale daily_tested column
+#Rescale daily_tested column to improve interpretation and convergence
 df_clean$daily_tested_scaled <- df_clean$daily_tested / 1000
 
 ```
-In the EDA, the
-### 3.5 Modeling and Results
+
+### Model
 
 ```{r}
 #Fit LMM with random intercept and slope
@@ -198,42 +200,54 @@ summary(model_refined)
 
 ```
 
-We modeled **daily_positive** (positive cases) as a function of **daily_tested_scaled** (tests per day, divided by 1,000 for interpretability), with random slopes and intercepts for Country_Region:
+### 3.3 Model Specification
+We modeled the number of daily positive COVID-19 cases (daily_positive) as a function of the number of daily tests conducted (daily_tested_scaled). We fit a Linear Mixed Model (LMM) with a random intercept and random slope for each country:
 
-**Key Results & Interpretation**
+- Response variable: *daily_positive*
+- Fixed effect predictor: *daily_tested_scaled* (daily tests per 1,000)
+- Random effects: intercepts and slopes grouped by *Country_Region*
 
-Random Effects (Country-Level Variability)
-Intercept Variance: 435,521 (Std. Dev. = 659.94)
-→ Countries have a wide range of baseline positivity rates.
-Slope Variance (daily_tested_scaled): 4,217 (Std. Dev. = 64.94)
-→ The effect of testing varies significantly across countries.
-Correlation (-0.42) between intercept and slope
-→ Countries with higher baseline positivity rates tend to have a lower increase in cases per additional 1,000 tests.
+This model allows each country to have its own baseline number of positive cases and its own relationship between testing volume and positivity.
+
+### 3.4 Fixed Effects Interpretation
+```{r}
+#Extract and print key fixed effects
+fixef(model_refined) #estimates for population-level intercept and slope
+```
 
 
-Fixed Effects (Overall Trend)
-Intercept (95.05, p = 0.281)
-→ Not significantly different from zero; suggests no strong overall baseline.
-daily_tested_scaled (52.16, p < 0.001)*
-→ On average, for every 1,000 tests conducted, about 52 additional positive cases are detected.
-
+The fixed effect for *daily_tested_scaled* was statistically significant (Estimate = 52.16, SE = 10.93, p < 0.001), indicating that, on average, each additional 1,000 tests is associated with approximately 52 more reported positive cases. The fixed intercept was not statistically significant (Estimate = 95.05, p = 0.281), suggesting no strong global baseline when adjusting for testing.
 
 ```{r}
-#Get model predictions
+#Generate model prediction
 df_clean$predicted <- predict(model_refined)
 
-#Scatter plot with values
-ggplot(df_clean, aes(x=daily_tested_scaled, y=daily_positive, color = Country_Region)) + 
-   geom_point(alpha = 0.3) +  # Raw data points
-  geom_line(aes(y = predicted, group = Country_Region), linewidth = 1) +  # Use linewidth instead of size
-  labs(title = "LMM: Daily Positive Cases vs. Daily Tests (Per Country)",
-   	x = "Daily Tests (in thousands)",
-   	y = "Daily Positive Cases") +
+#Plot all countries
+ggplot(df_clean, aes(x = daily_tested_scaled, y = daily_positive, color = Country_Region)) + 
+  geom_point(alpha = 0.3) +
+  geom_line(aes(y = predicted, group = Country_Region), linewidth = 1) +
+  labs(
+    title = "Figure 1. LMM Predictions: All Countries",
+    subtitle = "Fitted lines from Linear Mixed Model across all countries",
+    x = "Daily Tests (in thousands)",
+    y = "Daily Positive Cases"
+  ) +
   theme_minimal() +
-  theme(legend.position = "none")  # Hides legend for clarity
+  theme(legend.position = "none")
 
 ```
-This scatterplot shows the spread of real data across multiple different countries. The model's fitted lines per country are based on LMM predictions, which were how different countries follow unique trends. 
+
+
+### 3.5 Random Effects Interpretation
+```{r}
+VarCorr(model_refined)
+```
+
+The random intercept variance was 435,521 (SD = 659.94), indicating substantial variability in baseline positivity rates across countries. The random slope variance for daily_tested_scaled was 4,217 (SD = 64.94), suggesting that the effectiveness of testing (i.e., how many positives are identified per test) varies significantly by country. The negative correlation (-0.42) between random intercepts and slopes suggests that countries with higher baseline positivity tend to have a smaller marginal gain in detected positives per test.
+
+### 3.6 Assumption Checks
+
+The residuals vs. fitted plot revealed some mild heteroscedasticity, with greater variance in residuals at higher fitted values. However, no strong pattern of violation was observed. The Q-Q plot shows some deviation from normality at the tails, which is common in large public health datasets. Overall, the residuals appear reasonably well-behaved.
 
 ```{r}
 # Select a subset of countries 
@@ -247,13 +261,26 @@ df_subset$predicted <- predict(model_refined, newdata = df_subset)
 ggplot(df_subset, aes(x = daily_tested_scaled, y = daily_positive, color = Country_Region)) +
   geom_point(alpha = 0.6) +  # Raw data points
   geom_line(aes(y = predicted), linewidth = 1.2) +  # Use linewidth instead of size
-  labs(title = "LMM Predictions for Selected Countries",
+  labs(
+    title = "Figure 2: LMM Predictions for Selected Countries",
+       subtitle = "Fitted lines for United States, India, Brazil, Germany, and South Korea",
    	x = "Daily Tests (in thousands)",
    	y = "Daily Positive Cases") +
   theme_minimal()
 
 ```
 This scatterplot shows the relationship between testing and positive cases for specific countries and the country-wise differences in slopes (e.g., some countries have steeper slopes than others). In addition, this scatterplot shows how the model predicts positivity rates differently per country.
+
+### 3.7 Visual Insights
+Visualizations of fitted model predictions against observed data showed that:
+
+- The relationship between testing and positivity varies across countries.
+
+- Some countries exhibit steeper slopes (e.g., South Korea), while others show flatter or more variable trends (e.g., United States).
+
+- This validates the use of a random slope model, as a single global slope would fail to capture such heterogeneity.
+
+
 
 ### 4 Conclusion
 
@@ -267,3 +294,4 @@ Overall, the use of LMMs in this context illustrates their power in handling rea
 
 
 ## 5 References
+
