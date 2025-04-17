@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Autumn Clark and Alex Ottley (Advisor: Dr.Cohen)">
-<meta name="dcterms.date" content="2025-04-14">
+<meta name="dcterms.date" content="2025-04-17">
 
-<title>Gathering insights about COVID19 Worldwide Testing using Linear Mixed Models</title>
+<title>Gathering insights about COVID-19 Worldwide Testing using Linear Mixed Models</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -3245,7 +3245,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Gathering insights about COVID19 Worldwide Testing using Linear Mixed Models</h1>
+<h1 class="title">Gathering insights about COVID-19 Worldwide Testing using Linear Mixed Models</h1>
 <p class="subtitle lead">An analysis of linear mixed model algorithms and it’s applications</p>
 </div>
 
@@ -3263,7 +3263,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 14, 2025</p>
+      <p class="date">April 17, 2025</p>
     </div>
   </div>
   
@@ -3278,12 +3278,14 @@ window.Quarto = {
 <p><a href="litreview.html" target="_blank">Literature Review</a> | <a href="slides.html" target="_blank">Slides</a></p>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>This paper explores the theoretical foundations of linear mixed models (LMMs), their applications, and various techniques for estimating and interpreting the results. Additionally, we discuss model assumptions, challenges in fitting mixed models, and strategies to mitigate common pitfalls. Through these discussions, we aim to provide a comprehensive overview of LMMs and demonstrate their utility in addressing a range of research questions involving complex and correlated data.</p>
+<p>Linear mixed-effects models (LMMs) are widely used for analyzing data with both fixed and random effects, especially in fields involving repeated measures or hierarchical data structures. A major advancement in the implementation of LMMs in R is the development of the lme4 package, documented by Bates et al. (2015) <span class="citation" data-cites="BatesandDouglas2005">(<a href="#ref-BatesandDouglas2005" role="doc-biblioref">Bates et al. 2005</a>)</span>. This package provides a flexible and efficient framework for specifying and fitting mixed-effects models, using sparse matrix methods and numerical optimization to handle complex random-effects structures.</p>
 <p>Understanding complex, hierarchical data has become increasingly important across disciplines such as epidemiology, cardiology, psychology, and public health. Among the most powerful and flexible tools for analyzing such data is the Linear Mixed Model (LMM). LMMs extend traditional linear regression by incorporating both fixed effects, which account for population-level trends, and random effects, which capture variability across individual units or clusters. This structure enables LMMs to model correlated data—such as repeated measures from the same subject or observations nested within groups—without violating the assumption of independence required by simpler models.</p>
 <p>The usefulness of LMMs is particularly evident in medical and health research, where individual variability is often substantial. For instance, <span class="citation" data-cites="Goncalves2005">(<a href="#ref-Goncalves2005" role="doc-biblioref">Goncalves et al. 2005</a>)</span> highlighted the superior performance of LMMs over ANOVA in evaluating heart rate and coronary-perfused pressure data in transgenic mice. Their work demonstrated how LMMs provide a more sensitive and robust framework for assessing experimental effects in biomedical studies, particularly when data are unbalanced or collected over time.</p>
-<p>In cardiovascular research, sleep disturbances have been identified as significant contributors to abnormal nocturnal blood pressure (BP) profiles—factors that increase the risk of adverse cardiac events. <span class="citation" data-cites="Matsumoto2019">(<a href="#ref-Matsumoto2019" role="doc-biblioref"><span>“Association Between Sleep Disturbance and Nocturnal Blood Pressure Profiles by a Linear Mixed Model Analysis: The Nagahama Study”</span> 2019</a>)</span> employed LMMs in their investigation of sleep efficiency and nocturnal BP using multi-day observational data. Their use of random effects allowed them to control for between-subject variability while modeling day-to-day BP fluctuations, resulting in more accurate estimates of the associations. The study supported previous findings that lower sleep efficiency is linked to higher nighttime BP levels and diminished nocturnal BP dips <span class="citation" data-cites="Kario2001">(<a href="#ref-Kario2001" role="doc-biblioref">Kario et al. 2001</a>)</span> <span class="citation" data-cites="Mano2021">(<a href="#ref-Mano2021" role="doc-biblioref">Mano et al. 2021</a>)</span></p>
+<p>In cardiovascular research, sleep disturbances have been identified as significant contributors to abnormal nocturnal blood pressure (BP) profiles—factors that increase the risk of adverse cardiac events. <span class="citation" data-cites="Matsumoto2019">(<a href="#ref-Matsumoto2019" role="doc-biblioref">Matsumoto T 2019</a>)</span> employed LMMs in their investigation of sleep efficiency and nocturnal BP using multi-day observational data. Their use of random effects allowed them to control for between-subject variability while modeling day-to-day BP fluctuations, resulting in more accurate estimates of the associations. The study supported previous findings that lower sleep efficiency is linked to higher nighttime BP levels and diminished nocturnal BP dips <span class="citation" data-cites="Kario2001">(<a href="#ref-Kario2001" role="doc-biblioref">Kario et al. 2001</a>)</span> <span class="citation" data-cites="Mano2021">(<a href="#ref-Mano2021" role="doc-biblioref">Mano et al. 2021</a>)</span></p>
 <p>The advantages of LMMs extend to the modeling of 24-hour physiological processes. <span class="citation" data-cites="EdwardsandSimpson2014">(<a href="#ref-EdwardsandSimpson2014" role="doc-biblioref">Edwards and Simpson 2014</a>)</span> utilized orthonormal polynomials within LMMs to analyze 24-hour ambulatory blood pressure monitoring data. Their approach enhanced both the accuracy and interpretability of BP trajectories over time, providing clinicians with detailed insights into circadian rhythm variations in patient data. LMMs allowed for complex modeling without overfitting, an essential property when working with high-frequency longitudinal health data.</p>
 <p>Moreover, LMMs have proven especially valuable in large-scale clinical outcomes research. <span class="citation" data-cites="Wang2022">(<a href="#ref-Wang2022" role="doc-biblioref">Wang et al. 2022</a>)</span> showcased the strength of LMMs using a dataset from over 600 patients who underwent pulmonary valve replacement surgery. With more than 5,000 echocardiographic measurements over multiple years, the study leveraged LMMs to model both fixed effects (e.g., treatment procedures, age, sex) and random effects (e.g., patient-specific recovery trajectories). LMMs allowed the researchers to handle missing data, unbalanced measurement schedules, and inter-patient heterogeneity more effectively than traditional linear models or survival analysis.</p>
-<p>Together, these studies establish LMMs as a critical tool in longitudinal and repeated-measures research, offering flexibility, accuracy, and interpretability. This paper builds on that foundation by applying LMMs to the COVID-19 Worldwide Testing dataset, which contains country-level, time-indexed data on daily testing and positivity rates. While the subject differs from cardiovascular data, the analytical challenges—such as repeated observations, between-country variability, and time trends—are strikingly similar. The goal is to illustrate how LMMs can uncover meaningful patterns in large public health datasets, ultimately guiding more informed decision-making in times of global crisis. Later sections will also briefly reflect on how these models might be applied in hypothetical clinical settings, such as circadian blood pressure analysis.</p>
+<p>Together, these studies establish LMMs as a critical tool in longitudinal and repeated-measures research, offering flexibility, accuracy, and interpretability. This paper builds on that foundation by applying LMMs to the COVID-19 Worldwide Testing dataset, which contains country-level, time-indexed data on daily testing and positivity rates. While the subject differs from cardiovascular data, the analytical challenges—such as repeated observations, between-country variability, and time trends—are strikingly similar. The goal is to illustrate how LMMs can uncover meaningful patterns in large public health data sets, ultimately guiding more informed decision-making in times of global crisis. Later sections will also briefly reflect on how these models might be applied in hypothetical clinical settings, such as circadian blood pressure analysis.</p>
 </section>
 <section id="methods" class="level2">
 <h2 class="anchored" data-anchor-id="methods">2 Methods</h2>
@@ -3721,14 +3723,15 @@ Model failed to converge with max|grad| = 0.003381 (tol = 0.002, component 1)</c
 <p>Overall, the use of LMMs in this context illustrates their power in handling real-world public health data that is hierarchical, unbalanced, and repeated over time. The flexibility of LMMs allows researchers to extract more meaningful insights than would be possible with simpler linear models or ANOVA, particularly when assessing country-specific patterns during a global health crisis. Future research might explore more complex temporal structures or additional covariates (e.g., vaccination rates, policy interventions) to further enhance our understanding of COVID-19 dynamics worldwide.</p>
 </section>
 </section>
-<section id="references" class="level2 unnumbered">
-
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">5 References</h2>
+<p>Miki, T., et al. (2022). Nocturnal urination and its impact on sleep and blood pressure. Journal of Sleep Research, 31(4), e13489.</p>
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">5 References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
-<div id="ref-Matsumoto2019" class="csl-entry" role="listitem">
-<span>“Association Between Sleep Disturbance and Nocturnal Blood Pressure Profiles by a Linear Mixed Model Analysis: The Nagahama Study.”</span> 2019. <em>Sleep Medicine</em> 61: 104–9. https://doi.org/<a href="https://doi.org/10.1016/j.sleep.2019.01.049">https://doi.org/10.1016/j.sleep.2019.01.049</a>.
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-BatesandDouglas2005" class="csl-entry" role="listitem">
+Bates, Douglas et al. 2005. <span>“Fitting Linear Mixed Models in r.”</span> <em>R News</em> 5 (1): 27–30.
 </div>
 <div id="ref-EdwardsandSimpson2014" class="csl-entry" role="listitem">
 Edwards, L. J., and S. L. Simpson. 2014. <span>“An Analysis of 24-h Ambulatory Blood Pressure Monitoring Data Using Orthonormal Polynomials in the Linear Mixed Model.”</span> <em>Blood Pressure Monitoring</em> 19: 153–63. <a href="https://doi.org/10.1097/mbp.0000000000000039">https://doi.org/10.1097/mbp.0000000000000039</a>.
@@ -3741,6 +3744,9 @@ Kario, K, Y Ohno, K Shimada, K Nakayama, and K Shimamoto. 2001. <span>“Nocturn
 </div>
 <div id="ref-Mano2021" class="csl-entry" role="listitem">
 Mano, T. et al. 2021. <span>“Sleep Fragmentation and Cardiovascular Risk: A Review of Current Literature.”</span> <em>Sleep Medicine Reviews</em> 55: 101384.
+</div>
+<div id="ref-Matsumoto2019" class="csl-entry" role="listitem">
+Matsumoto T, Murase K, Tabara Y. 2019. <span>“Association Between Sleep Disturbance and Nocturnal Blood Pressure Profiles by a Linear Mixed Model Analysis: The Nagahama Study.”</span> <em>Sleep Medicine</em> 61: 104–9. https://doi.org/<a href="https://doi.org/10.1016/j.sleep.2019.01.049">https://doi.org/10.1016/j.sleep.2019.01.049</a>.
 </div>
 <div id="ref-Wang2022" class="csl-entry" role="listitem">
 Wang, Xu, Eleni-Rosalina Andrinopoulou, Kevin M Veen, Ad J J C Bogers, and Johanna J M Takkenberg. 2022. <span>“Statistical Primer: An Introduction to the Application of Linear Mixed-Effects Models in Cardiothoracic Surgery Outcomes Research‚äîa Case Study Using Homograft Pulmonary Valve Replacement Data.”</span> <em>European Journal of Cardio-Thoracic Surgery</em> 62 (4): ezac429. <a href="https://doi.org/10.1093/ejcts/ezac429">https://doi.org/10.1093/ejcts/ezac429</a>.

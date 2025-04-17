@@ -1,5 +1,5 @@
 ---
-title: "Gathering insights about COVID19 Worldwide Testing using Linear Mixed Models"
+title: "Gathering insights about COVID-19 Worldwide Testing using Linear Mixed Models"
 subtitle: "An analysis of linear mixed model algorithms and it's applications"
 
 author: "Autumn Clark and Alex Ottley (Advisor: Dr.Cohen)"
@@ -25,6 +25,10 @@ editor:
 
 ## Introduction
 
+This paper explores the theoretical foundations of linear mixed models (LMMs), their applications, and various techniques for estimating and interpreting the results. Additionally, we discuss model assumptions, challenges in fitting mixed models, and strategies to mitigate common pitfalls. Through these discussions, we aim to provide a comprehensive overview of LMMs and demonstrate their utility in addressing a range of research questions involving complex and correlated data.
+
+Linear mixed-effects models (LMMs) are widely used for analyzing data with both fixed and random effects, especially in fields involving repeated measures or hierarchical data structures. A major advancement in the implementation of LMMs in R is the development of the lme4 package, documented by Bates et al. (2015) [@BatesandDouglas2005]. This package provides a flexible and efficient framework for specifying and fitting mixed-effects models, using sparse matrix methods and numerical optimization to handle complex random-effects structures. 
+
 Understanding complex, hierarchical data has become increasingly important across disciplines such as epidemiology, cardiology, psychology, and public health. Among the most powerful and flexible tools for analyzing such data is the Linear Mixed Model (LMM). LMMs extend traditional linear regression by incorporating both fixed effects, which account for population-level trends, and random effects, which capture variability across individual units or clusters. This structure enables LMMs to model correlated data—such as repeated measures from the same subject or observations nested within groups—without violating the assumption of independence required by simpler models.
 
 The usefulness of LMMs is particularly evident in medical and health research, where individual variability is often substantial. For instance, [@Goncalves2005] highlighted the superior performance of LMMs over ANOVA in evaluating heart rate and coronary-perfused pressure data in transgenic mice. Their work demonstrated how LMMs provide a more sensitive and robust framework for assessing experimental effects in biomedical studies, particularly when data are unbalanced or collected over time.
@@ -35,7 +39,7 @@ The advantages of LMMs extend to the modeling of 24-hour physiological processes
 
 Moreover, LMMs have proven especially valuable in large-scale clinical outcomes research. [@Wang2022] showcased the strength of LMMs using a dataset from over 600 patients who underwent pulmonary valve replacement surgery. With more than 5,000 echocardiographic measurements over multiple years, the study leveraged LMMs to model both fixed effects (e.g., treatment procedures, age, sex) and random effects (e.g., patient-specific recovery trajectories). LMMs allowed the researchers to handle missing data, unbalanced measurement schedules, and inter-patient heterogeneity more effectively than traditional linear models or survival analysis.
 
-Together, these studies establish LMMs as a critical tool in longitudinal and repeated-measures research, offering flexibility, accuracy, and interpretability. This paper builds on that foundation by applying LMMs to the COVID-19 Worldwide Testing dataset, which contains country-level, time-indexed data on daily testing and positivity rates. While the subject differs from cardiovascular data, the analytical challenges—such as repeated observations, between-country variability, and time trends—are strikingly similar. The goal is to illustrate how LMMs can uncover meaningful patterns in large public health datasets, ultimately guiding more informed decision-making in times of global crisis. Later sections will also briefly reflect on how these models might be applied in hypothetical clinical settings, such as circadian blood pressure analysis.
+Together, these studies establish LMMs as a critical tool in longitudinal and repeated-measures research, offering flexibility, accuracy, and interpretability. This paper builds on that foundation by applying LMMs to the COVID-19 Worldwide Testing dataset, which contains country-level, time-indexed data on daily testing and positivity rates. While the subject differs from cardiovascular data, the analytical challenges—such as repeated observations, between-country variability, and time trends—are strikingly similar. The goal is to illustrate how LMMs can uncover meaningful patterns in large public health data sets, ultimately guiding more informed decision-making in times of global crisis. Later sections will also briefly reflect on how these models might be applied in hypothetical clinical settings, such as circadian blood pressure analysis.
 
 
 ## 2 Methods
@@ -295,3 +299,4 @@ Overall, the use of LMMs in this context illustrates their power in handling rea
 
 ## 5 References
 
+Miki, T., et al. (2022). Nocturnal urination and its impact on sleep and blood pressure. Journal of Sleep Research, 31(4), e13489.
