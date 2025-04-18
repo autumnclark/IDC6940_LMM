@@ -22,66 +22,80 @@ More information about `revealjs`:
 <https://quarto.org/docs/reference/formats/presentations/revealjs.html>
 :::
 
-## Introduction - Understanding LMMs  {.smaller}
+## Introduction - Understanding LMMs {.smaller}
 
-Linear Mixed Models (LMMs) are statistical models that extend traditional linear regression by including both:
+Linear Mixed Models (LMMs) are statistical models that extend
+traditional linear regression by including both:
 
-- Fixed effects: These are the overall effects you're interested in studying (e.g., how testing volume affects case counts across all countries).
+-   **Fixed effects:** These are the overall effects you're interested
+    in studying (e.g., how testing volume affects case counts across all
+    countries).
 
-- Random effects: These account for variation within subgroups or clusters (e.g., differences between countries), allowing intercepts and/or slopes to vary by group.
-
+-   **Random effects:** These account for variation within subgroups or
+    clusters (e.g., differences between countries), allowing intercepts
+    and/or slopes to vary by group.
 
 ## Introduction - Understanding LMMs continued {.smaller}
 
 LMMs are especially useful when:
 
-- Data is hierarchical or nested (like days within countries),
+-   Data is **hierarchical** or **nested** (like days within countries),
 
-- Measurements are repeated over time,
+-   Measurements are repeated over time,
 
-- The data is unbalanced (not the same number of observations for each group).
+-   The data is **unbalanced** (not the same number of observations for
+    each group).
 
+## Methods - Software Packages used for LMMs {.smaller}
 
+-   Linear mixed-effects models (LMMs) are widely used for analyzing
+    data with both **fixed and random effects**, especially in fields
+    involving **repeated measures** or **hierarchical data structures**.
 
+-   A major advancement in the implementation of LMMs in R is the
+    development of the **lme4** package, documented by Bates et
+    al.(2015) [@BatesandDouglas2005]. This package provides a framework
+    for specifying and fitting mixed-effects models, using sparse matrix
+    methods and numerical optimization to handle complex random-effects
+    structures.
 
 ## Methods - Model Structure and Notation {.smaller}
-The general form of a linear mixed model is:
-$$
+
+The general form of a linear mixed model is: $$
 y_{ij} = \beta_0 + \beta_1 x_{ij} + b_{0j} + b_{1j}x_{ij} + \varepsilon_{ij}
-$$
-Where,
+$$ Where,
 
-- $y_{ij}$: response variable for observation in $i$ in group $j$
+-   $y_{ij}$: response variable for observation in $i$ in group $j$
 
-- $x_{ij}$: predictor (e.g., scaled daily tests)
+-   $x_{ij}$: predictor (e.g., scaled daily tests)
 
-- $\beta_0,\beta_1$: fixed intercept and slope (population-level)
+-   $\beta_0,\beta_1$: fixed intercept and slope (population-level)
 
-- $b_{0j}, b_{1j}$: random intercept and slope for group $j$ (e.g., country)
+-   $b_{0j}, b_{1j}$: random intercept and slope for group $j$ (e.g.,
+    country)
 
-- $\varepsilon_{ij}$: residual error, assumed to be normally distributed: $\varepsilon_{ij} \sim N (0, \sigma^2)$
+-   $\varepsilon_{ij}$: residual error, assumed to be normally
+    distributed: $\varepsilon_{ij} \sim N (0, \sigma^2)$
 
 ## Methods - Model Structure and Notation continued {.smaller}
+
 In matrix form, the LMM can be represented as:
 
 $$
 y = X\beta + Zb + \varepsilon
-$$
-Where,
+$$ Where,
 
-- $y$: vector of outcomes
+-   $y$: vector of outcomes
 
-- $X$: fixed-effects design matrix
+-   $X$: fixed-effects design matrix
 
-- $\beta$: vector of fixed effect coefficients
+-   $\beta$: vector of fixed effect coefficients
 
-- $Z$: random-effects design matrix
+-   $Z$: random-effects design matrix
 
-- $b$: vector of random effects, assumed $\sim N (0, G)$
+-   $b$: vector of random effects, assumed $\sim N (0, G)$
 
-- $\varepsilon$: residual errors, assumed $\sim N(0, R)$
-
-
+-   $\varepsilon$: residual errors, assumed $\sim N(0, R)$
 
 ## Data Exploration and Visualization
 
@@ -140,8 +154,10 @@ ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total))
 
 ## Conclusion
 
-- Linear mixed models are powerful tools for analyzing complex, time-based public health data, capturing both global trends and country-specific differences.
+-   Linear mixed models are powerful tools for analyzing complex,
+    time-based public health data, capturing both global trends and
+    country-specific differences.
 
-_ 
+\_
 
 ## References
