@@ -58,6 +58,20 @@ LMMs are especially useful when:
     for specifying and fitting mixed-effects models, using sparse matrix
     methods and numerical optimization to handle complex random-effects
     structures.
+```{r}
+# loading packages 
+library(tidyverse)
+library(knitr)
+library(ggthemes)
+library(ggrepel)
+library(dslabs)
+library(lme4)
+library(nlme)
+library(dplyr)
+library(ggplot2)
+library(readr)
+```
+    
 
 ## Methods - Model Structure and Notation {.smaller}
 
@@ -97,44 +111,46 @@ $$ Where,
 
 -   $\varepsilon$: residual errors, assumed $\sim N(0, R)$
 
-## Data Exploration and Visualization
+## Data Exploration and Visualization {.smaller}
 
--   Describe your data sources and collection process.
+-  Our data comes from a [Covid19 Worldwide Testing](https://www.kaggle.com/datasets/lin0li/covid19testing/data){target="_blank"} dataset on Kaggle. It includes daily test counts, daily positive cases, and other variables across different countries over time.
 
--   Present initial findings and insights through visualizations.
+```{r echo=TRUE, warning=FALSE}
+# Load Data
+library(readr)
+COVID19 <- read_csv("tested_worldwide.csv")
+kable(head(COVID19))
+df <- COVID19
 
--   Highlight unexpected patterns or anomalies.
+```
+
+
+## Exploratory Data Analysis {.smaller}
+- Before modeling, we cleaned the data by removing rows with missing values in the daily test count, daily positive cases, and region columns.
+- We alsoc scaled the test count variable by dividing it by 1,000 for easier interpretation.
+
+```{r echo=TRUE, warning=FALSE}
+df <- COVID19
+#Convert Date to Date format
+df$Date <- as.Date(df$Date)
+
+#Remove rows with missing values in relevant columns
+df_clean <- df %>%
+  filter(!is.na(daily_positive), !is.na(daily_tested), !is.na(Country_Region))
+
+#Rescale daily_tested column to improve interpretation and convergence
+df_clean$daily_tested_scaled <- df_clean$daily_tested / 1000
+
+```
+
+
 
 ## Data Exploration and Visualization {.smaller}
 
 A study was conducted to determine how...
 
-```{r, warning=FALSE, echo=F, message=FALSE}
-# loading packages 
-library(tidyverse)
-library(knitr)
-library(ggthemes)
-library(ggrepel)
-library(dslabs)
-```
 
 ```{r, warning=FALSE, echo=F}
-# Load Data
-#kable(head(murders))
-
-ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total)) 
-
-  ggplot1 + geom_point(aes(col=region), size = 4) +
-  geom_text_repel(aes(label=abb)) +
-  scale_x_log10() +
-  scale_y_log10() +
-  geom_smooth(formula = "y~x", method=lm,se = F)+
-  xlab("Populations in millions (log10 scale)") + 
-  ylab("Total number of murders (log10 scale)") +
-  ggtitle("US Gun Murders in 2010") +
-  scale_color_discrete(name = "Region")+
-      theme_bw()
-  
 
 ```
 
@@ -157,7 +173,8 @@ ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total))
 -   Linear mixed models are powerful tools for analyzing complex,
     time-based public health data, capturing both global trends and
     country-specific differences.
+-   This project helped us understand global COVID-19 testing patterns,     showing that the number of tests is a strong predictor of detected       cases, but the effect size varies by country.
+- It also shows the value of LMMs over simpler models, like linear regression, when working with complex, international health data.
 
-\_
 
 ## References
