@@ -104,6 +104,14 @@ $$ Where,
 
 -   $\varepsilon$: residual errors, assumed $\sim N(0, R)$
 
+## Assumptions
+
+1. **Linearity** - the relationship between predictor (fixed effects) and response variable are linear.
+2. **Independence of Residual Errors** - residual errors of a model are assumed to be independent within each level of the random effect structure
+3. **Normality of Residual Errors and Random Effects** - Residual errors and random effects are assumed to be **normally distributed**. 
+4. **Homoscedasticity**, the variance of the residuals, should be **constant** across all levels of the independent variables.
+
+
 ## Data Overview {.smaller}
 
 -  Our data comes from a [Covid19 Worldwide Testing](https://www.kaggle.com/datasets/lin0li/covid19testing/data){target="_blank"} dataset on Kaggle. It includes daily test counts, daily positive cases, and other variables across different countries over time.
@@ -195,7 +203,15 @@ VarCorr(model_refined)
 ```{r}
 knitr::include_graphics("Random Effects.png")
 ```
+## Visual Insights
 
+Visualizations of fitted model predictions against observed data showed that:
+
+- The relationship between testing and positivity varies across countries.
+
+- Some countries exhibit steeper slopes (e.g., South Korea), while others show flatter or more variable trends (e.g., United States).
+
+- This validates the use of a random slope model, as a single global slope would fail to capture such heterogeneity.
 
 ## Conclusion
 

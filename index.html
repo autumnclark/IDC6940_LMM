@@ -3324,24 +3324,35 @@ y = X\beta + Zb + \varepsilon
 </ul>
 <p>This framework enables the estimation of both overall trends (fixed effects) and group-specific deviations (random effects), making linear mixed models ideal for handling variability and correlation structures across clusters.</p>
 </section>
+<section id="assumptions" class="level2">
+<h2 class="anchored" data-anchor-id="assumptions">2.3 Assumptions</h2>
+<p>Like many statistical methods, Linear Mixed models rely on several assumptions to ensure validity of estimates and inferences. These assumptions include:</p>
+<ol type="1">
+<li><strong>Linearity</strong> - the relationship between predictor (fixed effects) and response variable are linear.</li>
+<li><strong>Independence of Residual Errors</strong> - residual errors of a model are assumed to be independent within each level of the random effect structure</li>
+<li><strong>Normality of Residual Errors and Random Effects</strong> - Residual errors and random effects are assumed to be <strong>normally distributed</strong>.</li>
+<li><strong>Homoscedasticity</strong>, the variance of the residuals, should be <strong>constant</strong> across all levels of the independent variables.</li>
+</ol>
+<p>Violations of these assumptions are quite common</p>
+</section>
 <section id="application-to-covid-19-data" class="level2">
-<h2 class="anchored" data-anchor-id="application-to-covid-19-data">2.3 Application to COVID-19 Data</h2>
+<h2 class="anchored" data-anchor-id="application-to-covid-19-data">2.4 Application to COVID-19 Data</h2>
 <p>In this study, we employed a linear mixed model to examine the relationship between the number of daily COVID-19 positive cases reported across various countries over time. The data set consists of repeated daily observations for each country, which results in multilevel structure where each country is considered a separate group with its own data points over time. This hierarchical structure gives the opportunity to account for both the overall trends in the data and the variability across different countries.</p>
 <p>The model was designed to account for both the fixed effects of the number of daily tests conducted, which can influence case detection, and the random effects that capture country-specific deviations in testing practices and positivity rates. The model allows the both the intercept, baseline positivity, and the slope, the effect of testing on reported cases, to vary by country. This is incredibly important because different countries may have varying baseline rates of COVID-19 positivity and differing testing strategies, which may influence the number of positive cases detected.</p>
 <section id="key-components-of-the-model" class="level3">
 <h3 class="anchored" data-anchor-id="key-components-of-the-model">Key components of the model:</h3>
 <ul>
-<li>Response variable: <em>daily_positive</em> — the number of newly confirmed cases per day</li>
-<li>Fixed effect predictor: <em>daily_tested_scaled</em> — the number of daily tests conducted (scaled by 1,000)</li>
-<li>Random effects: Intercept and slope for each <em>Country_Region</em>, allowing both baseline positivity and test effectiveness to vary by country</li>
+<li>Response variable: <strong>daily_positive</strong> — the number of newly confirmed cases per day</li>
+<li>Fixed effect predictor: <strong>daily_tested_scaled</strong> — the number of daily tests conducted (scaled by 1,000)</li>
+<li>Random effects: Intercept and slope for each <strong>Country_Region</strong>, allowing both baseline positivity and test effectiveness to vary by country</li>
 </ul>
 <p>The model formula in R was specified as:</p>
-<p><em>lmer(daily_positive ~ daily_tested_scaled + (daily_tested_scaled | Country_Region), data = df_clean</em>)*</p>
+<p>**lmer(daily_positive ~ daily_tested_scaled + (daily_tested_scaled | Country_Region), data = df_clean)*</p>
 <p>This structure enables the model to capture both the overall trend of case detection as influenced by the number of tests conducted, while simultaneously accounting for the heterogeneity in testing practices and baseline positivity across countries. By allowing these country-level variations, the model provides a more accurate understanding of how COVID-19 testing impacted the reported cases in different settings.</p>
 </section>
 </section>
 <section id="justification" class="level2">
-<h2 class="anchored" data-anchor-id="justification">2.4 Justification</h2>
+<h2 class="anchored" data-anchor-id="justification">2.5 Justification</h2>
 <p>Linear mixed models were chosen due to their ability to model nested data, adjust for within-group correlation, and incorporate individual variation in trends. These models also handle unbalanced data (i.e., unequal observations per country) and missingness better than traditional methods like repeated-measures ANOVA or fixed-effects OLS regression.</p>
 </section>
 <section id="analysis-and-results" class="level2">

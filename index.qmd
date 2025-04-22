@@ -100,10 +100,12 @@ This framework enables the estimation of both overall trends (fixed effects) and
 
 Like many statistical methods, Linear Mixed models rely on several assumptions to ensure validity of estimates and inferences. These assumptions include:
 
-1. Linearity - the relationship between predictor (fixed effects) and response variable are linear.
-2. Independence of Residual Errors - residual errors of a model are assumed to be independent within each level of the random effect structure
-3. Normality of Residual Errors and Random Effects - Residual errors and random effects are assumed to be normally distributed. 
-4. Homoscedastisity 
+1. **Linearity** - the relationship between predictor (fixed effects) and response variable are linear.
+2. **Independence of Residual Errors** - residual errors of a model are assumed to be independent within each level of the random effect structure
+3. **Normality of Residual Errors and Random Effects** - Residual errors and random effects are assumed to be **normally distributed**. 
+4. **Homoscedasticity**, the variance of the residuals, should be **constant** across all levels of the independent variables.
+
+Violations of these assumptions are quite common 
 
 
 ## 2.4 Application to COVID-19 Data
@@ -114,13 +116,13 @@ The model was designed to account for both the fixed effects of the number of da
 
 ### Key components of the model:
 
-- Response variable: *daily_positive* — the number of newly confirmed cases per day
-- Fixed effect predictor: *daily_tested_scaled* — the number of daily tests conducted (scaled by 1,000)
-- Random effects: Intercept and slope for each *Country_Region*, allowing both baseline positivity and test effectiveness to vary by country
+- Response variable: **daily_positive** — the number of newly confirmed cases per day
+- Fixed effect predictor: **daily_tested_scaled** — the number of daily tests conducted (scaled by 1,000)
+- Random effects: Intercept and slope for each **Country_Region**, allowing both baseline positivity and test effectiveness to vary by country
 
 The model formula in R was specified as:
 
-*lmer(daily_positive ~ daily_tested_scaled + (daily_tested_scaled | Country_Region), data = df_clean*)*
+**lmer(daily_positive ~ daily_tested_scaled + (daily_tested_scaled | Country_Region), data = df_clean)*
 
 This structure enables the model to capture both the overall trend of case detection as influenced by the number of tests conducted, while simultaneously accounting for the heterogeneity in testing practices and baseline positivity across countries. By allowing these country-level variations, the model provides a more accurate understanding of how COVID-19 testing impacted the reported cases in different settings.
 
