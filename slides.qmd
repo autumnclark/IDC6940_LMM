@@ -185,11 +185,15 @@ fixef(model_refined) #estimates for population-level intercept and slope
 ```
 
 ```{r}
-knitr::include_graphics("Screenshot 2025-04-22 at 2.59.33 PM.png")
+knitr::include_graphics("Fixed Effects.png")
 ```
 ## Random Effects Interpretation
 ```{r echo=TRUE, warning=FALSE}
 VarCorr(model_refined)
+```
+
+```{r}
+knitr::include_graphics("Random Effects.png")
 ```
 
 

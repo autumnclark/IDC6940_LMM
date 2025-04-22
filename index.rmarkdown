@@ -19,6 +19,8 @@ editor:
     wrap: 72
 ---
 
+
+
 [Literature Review](litreview.html){target="_blank"} |
 [Slides](slides.html){target="_blank"}
 
@@ -98,12 +100,7 @@ This framework enables the estimation of both overall trends (fixed effects) and
 
 ## 2.3 Assumptions
 
-Like many statistical methods, Linear Mixed models rely on several assumptions to ensure validity of estimates and inferences. These assumptions include:
-
-1. Linearity - the relationship between predictor (fixed effects) and response variable are linear.
-2. Independence of Residual Errors - residual errors of a model are assumed to be independent within each level of the random effect structure
-3. Normality of Residual Errors and Random Effects - Residual errors and random effects are assumed to be normally distributed. 
-4. Homoscedastisity 
+Linear Mixed models
 
 
 ## 2.4 Application to COVID-19 Data
@@ -135,6 +132,8 @@ Linear mixed models were chosen due to their ability to model nested data, adjus
 
 ### Packages 
 
+
+
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # loading packages 
 library(tidyverse)
@@ -150,7 +149,11 @@ library(readr)
 
 ```
 
+
+
 ### Data Import
+
+
 ```{r echo=TRUE, warning=FALSE}
 # Load Data
 library(readr)
@@ -159,6 +162,8 @@ kable(head(COVID19))
 df <- COVID19
   
 ```
+
+
 
 Data Source: **Kaggle**
 
@@ -186,6 +191,8 @@ For example, imagine a country not doing much testing might be reporting low num
 
 ### 3.2 Exploratory Data Analysis (Clean Data)
 
+
+
 ```{r}
 
 df <- COVID19
@@ -201,7 +208,11 @@ df_clean$daily_tested_scaled <- df_clean$daily_tested / 1000
 
 ```
 
+
+
 ### 3.3 Model
+
+
 
 ```{r}
 #Fit LMM with random intercept and slope
@@ -214,6 +225,8 @@ summary(model_refined)
 
 ```
 
+
+
 ### 3.3.1 Model Specification
 We modeled the number of daily positive COVID-19 cases (daily_positive) as a function of the number of daily tests conducted (daily_tested_scaled). We fit a Linear Mixed Model (LMM) with a random intercept and random slope for each country:
 
@@ -225,13 +238,19 @@ This model allows each country to have its own baseline number of positive cases
 
 
 ### 3.4 Fixed Effects Interpretation
+
+
 ```{r}
 #Extract and print key fixed effects
 fixef(model_refined) #estimates for population-level intercept and slope
 ```
 
 
+
+
 The fixed effect for *daily_tested_scaled* was statistically significant (Estimate = 52.16, SE = 10.93, p < 0.001), indicating that, on average, each additional 1,000 tests is associated with approximately 52 more reported positive cases. The fixed intercept was not statistically significant (Estimate = 95.05, p = 0.281), suggesting no strong global baseline when adjusting for testing.
+
+
 
 ```{r}
 #Generate model prediction
@@ -253,16 +272,24 @@ ggplot(df_clean, aes(x = daily_tested_scaled, y = daily_positive, color = Countr
 ```
 
 
+
+
 ### 3.5 Random Effects Interpretation
+
+
 ```{r}
 VarCorr(model_refined)
 ```
+
+
 
 The random intercept variance was 435,521 (SD = 659.94), indicating substantial variability in baseline positivity rates across countries. The random slope variance for daily_tested_scaled was 4,217 (SD = 64.94), suggesting that the effectiveness of testing (i.e., how many positives are identified per test) varies significantly by country. The negative correlation (-0.42) between random intercepts and slopes suggests that countries with higher baseline positivity tend to have a smaller marginal gain in detected positives per test.
 
 ### 3.6 Assumption Checks
 
 The residuals vs. fitted plot revealed some mild heteroscedasticity, with greater variance in residuals at higher fitted values. However, no strong pattern of violation was observed. The Q-Q plot shows some deviation from normality at the tails, which is common in large public health datasets. Overall, the residuals appear reasonably well-behaved.
+
+
 
 ```{r}
 # Select a subset of countries 
@@ -284,6 +311,8 @@ ggplot(df_subset, aes(x = daily_tested_scaled, y = daily_positive, color = Count
   theme_minimal()
 
 ```
+
+
 This scatterplot shows the relationship between testing and positive cases for specific countries and the country-wise differences in slopes (e.g., some countries have steeper slopes than others). In addition, this scatterplot shows how the model predicts positivity rates differently per country.
 
 ### 3.7 Visual Insights
@@ -311,3 +340,4 @@ Overall, the use of LMMs in this context illustrates their power in handling rea
 ## 5 References
 
 Miki, T., et al. (2022). Nocturnal urination and its impact on sleep and blood pressure. Journal of Sleep Research, 31(4), e13489.
+
