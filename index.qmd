@@ -99,7 +99,7 @@ This framework enables the estimation of both overall trends (fixed effects) and
 
 ## 2.3 Application to COVID-19 Data
 
-In this study, we employed a linear mixed model to examine the relationship between the number of daily COVID-19 positive cases reported across various countries over time. The dataset consists of repeated daily observations for each country, which results in multilevel structure where each country is considered a separate group with its own data points over time. This hierarchical structure gives the opportunity to account for both the overall trends in the data and the variability across different countries.
+In this study, we employed a linear mixed model to examine the relationship between the number of daily COVID-19 positive cases reported across various countries over time. The data set consists of repeated daily observations for each country, which results in multilevel structure where each country is considered a separate group with its own data points over time. This hierarchical structure gives the opportunity to account for both the overall trends in the data and the variability across different countries.
 
 The model was designed to account for both the fixed effects of the number of daily tests conducted, which can influence case detection, and the random effects that capture country-specific deviations in testing practices and positivity rates. The model allows the both the intercept, baseline positivity, and the slope, the effect of testing on reported cases, to vary by country. This is incredibly important because different countries may have varying baseline rates of COVID-19 positivity and differing testing strategies, which may influence the number of positive cases detected.
 
@@ -176,6 +176,7 @@ For example, imagine a country not doing much testing might be reporting low num
 - **Daily_positive**: number of positives cases reported on the day; if daily data is unavailable, daily positive is averaged across number of days in
 
 ### 3.2 Exploratory Data Analysis (Clean Data)
+
 ```{r}
 
 df <- COVID19
@@ -191,7 +192,7 @@ df_clean$daily_tested_scaled <- df_clean$daily_tested / 1000
 
 ```
 
-### Model
+### 3.3 Model
 
 ```{r}
 #Fit LMM with random intercept and slope
@@ -204,7 +205,7 @@ summary(model_refined)
 
 ```
 
-### 3.3 Model Specification
+### 3.3.1 Model Specification
 We modeled the number of daily positive COVID-19 cases (daily_positive) as a function of the number of daily tests conducted (daily_tested_scaled). We fit a Linear Mixed Model (LMM) with a random intercept and random slope for each country:
 
 - Response variable: *daily_positive*
@@ -212,6 +213,7 @@ We modeled the number of daily positive COVID-19 cases (daily_positive) as a fun
 - Random effects: intercepts and slopes grouped by *Country_Region*
 
 This model allows each country to have its own baseline number of positive cases and its own relationship between testing volume and positivity.
+
 
 ### 3.4 Fixed Effects Interpretation
 ```{r}
@@ -276,6 +278,7 @@ ggplot(df_subset, aes(x = daily_tested_scaled, y = daily_positive, color = Count
 This scatterplot shows the relationship between testing and positive cases for specific countries and the country-wise differences in slopes (e.g., some countries have steeper slopes than others). In addition, this scatterplot shows how the model predicts positivity rates differently per country.
 
 ### 3.7 Visual Insights
+
 Visualizations of fitted model predictions against observed data showed that:
 
 - The relationship between testing and positivity varies across countries.
@@ -283,7 +286,6 @@ Visualizations of fitted model predictions against observed data showed that:
 - Some countries exhibit steeper slopes (e.g., South Korea), while others show flatter or more variable trends (e.g., United States).
 
 - This validates the use of a random slope model, as a single global slope would fail to capture such heterogeneity.
-
 
 
 ### 4 Conclusion
