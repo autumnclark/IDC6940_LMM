@@ -70,8 +70,9 @@ library(readr)
 
 ## Why Linear Mixed Models (LMMs)?
 
--   Linear mixed models were chosen due to their ability to model nested data, adjust for within-group correlation, and        incorporate individual variation in trends. 
--   These models also handle unbalanced data (i.e., unequal/unbalanced observations per country) and missingness better        than traditional methods like repeated-measures ANOVA or fixed-effects OLS regression.
+- Suitable for the data set we chose
+- Daily observations (such as test counts, positive cases, positivity rates, etc) for **multiple countries** across a span of time (multiple observations over time)
+  - This results in **hierarchical** or **nested data**, that is repeated measures nested within countries.
 
 ## Methods {.title-slide}
 
