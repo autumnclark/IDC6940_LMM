@@ -1,10 +1,11 @@
 ---
 title: "Gathering insights about COVID19 Worldwide Testing using Linear Mixed Models"
-subtitle: "UWF IDC6940 Capstone Project on Linear Mixed Models (LMMs)"
+subtitle: "UWF IDC6940 Capstone Project"
 author: "Alex Ottley and Autumn Clark (Advisor: Dr. Cohen)"
 date: '`r Sys.Date()`'
 format:
   revealjs
+theme: simple
 course: Capstone Projects in Data Science
 bibliography: references.bib # file contains bibtex for references
 #always_allow_html: true # this allows to get PDF with HTML features
@@ -17,7 +18,9 @@ editor:
   markdown: 
     wrap: 72
 ---
-## Understanding Linear Mixed Models (LMMs) {.smaller}
+## Introduction {.title-slide}
+
+## Understanding Linear Mixed Models (LMMs)
 
 Linear Mixed Models (LMMs) are statistical models that extend
 traditional linear regression by including both:
@@ -42,7 +45,7 @@ LMMs are especially useful when:
 
 ## Software Packages used for LMMs {.smaller}
 
--   Linear mixed-effects models (LMMs) are widely used for analyzing
+-   LMMs are widely used for analyzing
     data with both **fixed and random effects**, especially in fields
     involving **repeated measures** or **hierarchical data structures**.
 -   A major advancement in the implementation of LMMs in R is the
@@ -64,9 +67,15 @@ library(dplyr)
 library(ggplot2)
 library(readr)
 ```
-    
 
-## Methods - Model Structure and Notation {.smaller}
+## Why Linear Mixed Models (LMMs)?
+
+-   Linear mixed models were chosen due to their ability to model nested data, adjust for within-group correlation, and        incorporate individual variation in trends. 
+-   These models also handle unbalanced data (i.e., unequal/unbalanced observations per country) and missingness better        than traditional methods like repeated-measures ANOVA or fixed-effects OLS regression.
+
+## Methods {.title-slide}
+
+## Model Structure and Notation {.smaller}
 
 The general form of a linear mixed model is: $$
 y_{ij} = \beta_0 + \beta_1 x_{ij} + b_{0j} + b_{1j}x_{ij} + \varepsilon_{ij}
@@ -84,7 +93,7 @@ $$ Where,
 -   $\varepsilon_{ij}$: residual error, assumed to be normally
     distributed: $\varepsilon_{ij} \sim N (0, \sigma^2)$
 
-## Methods - Model Structure and Notation continued {.smaller}
+## Model Structure and Notation cont. {.smaller}
 
 In matrix form, the LMM can be represented as:
 
@@ -111,8 +120,9 @@ $$ Where,
 3. **Normality of Residual Errors and Random Effects** - Residual errors and random effects are assumed to be **normally distributed**. 
 4. **Homoscedasticity**, the variance of the residuals, should be **constant** across all levels of the independent variables.
 
+## Capstone Project Data Overview {.title-slide}
 
-## Data Overview {.smaller}
+## Data Import {.smaller .scrollable}
 
 -  Our data comes from a [Covid19 Worldwide Testing](https://www.kaggle.com/datasets/lin0li/covid19testing/data){target="_blank"} dataset on Kaggle. It includes daily test counts, daily positive cases, and other variables across different countries over time.
 
@@ -126,25 +136,12 @@ df <- COVID19
 
 ```
 
-## Why Linear Mixed Models (LMMs)?
-
--   Linear mixed models were chosen due to their ability to model nested data, adjust for within-group correlation, and        incorporate individual variation in trends. 
--   These models also handle unbalanced data (i.e., unequal/unbalanced observations per country) and missingness better        than traditional methods like repeated-measures ANOVA or fixed-effects OLS regression.
 
 ## Application to COVID-19 Data {.smaller}
 
 -  A study was conducted to employ linear mixed models to examine the relationship between the number of daily COVID-19   positive cases reported across various countries over time.The data set consists of repeated daily observations for each country, which results in multilevel structure where each country is considered a separate group with its own data points over time. This hierarchical structure gives the opportunity to account for both the overall trends in the data and the variability across different countries.
 
 - The model was designed to account for both the fixed effects of the number of daily tests conducted, which can influence case detection, and the random effects that capture country-specific deviations in testing practices and positivity rates. The model allows the both the intercept, baseline positivity, and the slope, the effect of testing on reported cases, to vary by country. 
-
-## Key components of the model {.smaller}
-
-- Response variable: **daily_positive** — the number of newly confirmed cases per day
-- Fixed effect predictor: **daily_tested_scaled** — the number of daily tests conducted (scaled by 1,000)
-- Random effects: Intercept and slope for each **Country_Region**, allowing both baseline positivity and test effectiveness to vary by country
-
-The model formula in R was specified as:
-**lmer(daily_positive ~ daily_tested_scaled + (daily_tested_scaled | Country_Region), data = df_clean)**
 
 
 ## Exploratory Data Analysis {.smaller}
@@ -165,6 +162,8 @@ df_clean$daily_tested_scaled <- df_clean$daily_tested / 1000
 
 ```
 
+## Analysis & Results {.title-slide}
+
 ## Modeling {.smaller}
 
 ```{r echo=TRUE, warning=FALSE}
@@ -176,12 +175,13 @@ model_refined <- lmer(daily_positive ~ daily_tested_scaled + (daily_tested_scale
 
 - Response variable: **daily_positive** — the number of newly confirmed cases per day
 - Fixed effect predictor: **daily_tested_scaled** — the number of daily tests conducted (scaled by 1,000)
-- Random effects: Intercept and slope for each **Country_Region**
+- Random effects: Intercept and slope for each **Country_Region**, allowing both baseline positivity and test effectiveness to vary by country
 
 The model formula in R was specified as:
 **lmer(daily_positive ~ daily_tested_scaled + (daily_tested_scaled | Country_Region), data = df_clean)**
 
 - This model allows each country to have its own baseline number of positive cases and its own relationship between testing volume and positivity.
+
 
 ## Fixed Effects Interpretation {.smaller}
 
