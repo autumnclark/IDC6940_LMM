@@ -71,8 +71,9 @@ library(readr)
 ## Why Linear Mixed Models (LMMs)?
 
 - Suitable for the data set we chose
-- Daily observations (such as test counts, positive cases, positivity rates, etc) for **multiple countries** across a span of time (multiple observations over time)
-  - This results in **hierarchical** or **nested data**, that is repeated measures nested within countries.
+- **Hierarchical** data structure
+- Accounts for **repeated measures**
+- Deals with **uneven** data
 
 ## Methods {.title-slide}
 
