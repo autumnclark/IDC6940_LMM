@@ -105,8 +105,6 @@ Like many statistical methods, Linear Mixed models rely on several assumptions t
 3. **Normality of Residual Errors and Random Effects** - Residual errors and random effects are assumed to be **normally distributed**. 
 4. **Homoscedasticity**, the variance of the residuals, should be **constant** across all levels of the independent variables.
 
-Violations of these assumptions are quite common 
-
 
 ## 2.4 Application to COVID-19 Data
 
